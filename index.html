@@ -12,94 +12,96 @@
 <style>
 :root{--bg:#111522;--card:#1a2030;--text:#f4f6f8;--muted:#9ca7b5;--line:#30384a;--lime:#91d34f;--gold:#f6c85f;--red:#ff6969}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
-.app{max-width:1080px;margin:auto;padding:18px 15px 92px}.hero{padding:25px 20px;background:linear-gradient(140deg,#172235,#222b40);border:1px solid var(--line);border-radius:24px}
-.hero h1{font-size:29px;margin:6px 0}.hero p{margin:0;color:var(--muted)}.eyebrow{font-size:11px;color:var(--muted)}
-.nav{display:flex;gap:8px;overflow:auto;position:sticky;top:0;z-index:10;padding:12px 0;background:rgba(17,21,34,.96)}.nav button{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:10px 14px;border-radius:99px;font-weight:700;white-space:nowrap}.nav button.on{background:var(--lime);color:#13200d}
+.app{max-width:1050px;margin:auto;padding:18px 15px 92px}.hero{padding:24px 20px;background:linear-gradient(140deg,#172235,#222b40);border:1px solid var(--line);border-radius:24px}
+.hero h1{font-size:28px;margin:6px 0}.hero p{margin:0;color:var(--muted)}.eyebrow{font-size:11px;color:var(--muted)}
+.nav{display:flex;gap:8px;overflow:auto;position:sticky;top:0;z-index:10;padding:12px 0;background:rgba(17,21,34,.96)}
+.nav button{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:10px 14px;border-radius:99px;font-weight:700;white-space:nowrap}.nav button.on{background:var(--lime);color:#13200d}
 .page{display:none}.page.on{display:block}.grid{display:grid;gap:13px}.kpis{grid-template-columns:repeat(4,1fr);margin-top:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
 .label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;margin-top:4px}.lime{color:var(--lime)}.red{color:var(--red)}.gold{color:var(--gold)}
-h2{font-size:19px;margin:25px 0 10px}h3{font-size:16px;margin:0 0 9px}.small{font-size:12px;color:var(--muted)}.big{font-size:18px;font-weight:800}
-.notice{padding:14px 15px;border-radius:14px;background:#262c3c;border:1px solid var(--line);font-size:13px}.warn{background:#29251c}.good{background:#18261a}.bad{background:#2b1c1c}
-.progress{height:12px;background:#2a3141;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--lime)}
-.accounts{grid-template-columns:repeat(3,1fr)}.tag{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;margin-bottom:8px;background:#2a3448;color:#d8e7fa}
+h2{font-size:19px;margin:25px 0 10px}h3{font-size:16px;margin:0 0 9px}.small{font-size:12px;color:var(--muted)}.notice{padding:14px 15px;border-radius:14px;background:#262c3c;border:1px solid var(--line);font-size:13px}.warn{background:#29251c}
+.progress{height:12px;background:#2a3141;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--lime)}.accounts{grid-template-columns:repeat(3,1fr)}
+.tag{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;margin-bottom:8px;background:#2a3448;color:#d8e7fa}
 .input,select{width:100%;border:1px solid var(--line);background:#141a27;color:var(--text);border-radius:12px;padding:12px;font-size:16px}.btn{border:0;border-radius:13px;padding:13px 16px;font-size:15px;font-weight:800;background:var(--lime);color:#14200e}.btn.secondary{background:#2b3344;color:var(--text)}
 .two{grid-template-columns:1fr 1fr}.alloc{display:grid;grid-template-columns:1fr auto;gap:5px 12px;padding:12px 0;border-bottom:1px solid var(--line)}.alloc:last-child{border:0}.dest{font-weight:800}.why{font-size:12px;color:var(--muted)}.money{font-weight:900}
-.check{width:21px;height:21px;accent-color:#91d34f}.done{opacity:.42;text-decoration:line-through}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{background:#202737}
-.switchrow{display:flex;align-items:center;gap:10px}.switchrow input{width:20px;height:20px;accent-color:#91d34f}
 .bottom{display:none;position:fixed;left:0;right:0;bottom:0;background:rgba(17,21,34,.98);border-top:1px solid var(--line);z-index:20}.bottom button{flex:1;background:none;border:0;color:var(--muted);padding:11px 4px;font-size:11px}.bottom button.on{color:var(--lime);font-weight:800}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}.modal.on{display:flex}.modalbox{max-width:680px;width:100%;max-height:90vh;overflow:auto;background:#161c29;border:1px solid var(--line);border-radius:22px;padding:20px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.privacy{font-size:12px;color:#c8d2de;background:#14231a;border:1px solid #31513a;border-radius:12px;padding:12px}
 @media(max-width:760px){.kpis{grid-template-columns:1fr 1fr}.accounts,.two{grid-template-columns:1fr}.nav{display:none}.bottom{display:flex}.hero{margin:-18px -15px 0;border-radius:0}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="hero"><div class="eyebrow">ACTUAL SNAPSHOT · 2026/10/24</div><h1>我的財務小管家 💸</h1><p>先處理 11/10 保費，再補 Emergency，再拉回 DCA。</p></header>
+<header class="hero">
+<div class="eyebrow">PRIVATE-DATA VERSION · v28</div>
+<h1>我的財務小管家 💸</h1>
+<p>程式碼公開也沒關係；真正財務數字只存在你的瀏覽器。</p>
+</header>
 
 <nav class="nav">
-<button class="on" data-page="home">現在</button><button data-page="pay">這次薪水怎麼分</button><button data-page="plan">月計畫</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button>
+<button class="on" data-page="home">現在</button><button data-page="pay">分薪</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button><button data-page="settings">設定</button>
 </nav>
 
 <section id="home" class="page on">
 <div class="grid kpis">
-<div class="card"><div class="label">目前總資產</div><div class="value lime">$349,090</div><div class="small">10/24 Account Overview</div></div>
-<div class="card"><div class="label">國泰證券</div><div class="value">$320,549</div><div class="small">約占總資產 92%</div></div>
-<div class="card"><div class="label">台幣可動用現金</div><div class="value gold">$12,430</div><div class="small">不含股票 / Binance / 美金</div></div>
-<div class="card"><div class="label">11/10 全球保費</div><div class="value red">約 $23,000</div><div class="small">目前最高優先</div></div>
+<div class="card"><div class="label">目前總資產</div><div class="value lime" id="kTotal">—</div></div>
+<div class="card"><div class="label">投資資產</div><div class="value" id="kInvest">—</div></div>
+<div class="card"><div class="label">台幣可動用現金</div><div class="value gold" id="kCash">—</div></div>
+<div class="card"><div class="label">下一筆保費</div><div class="value red" id="kInsurance">—</div></div>
 </div>
 
-<h2>保費還差多少？</h2>
+<h2>現在要先做什麼？</h2>
 <div class="card">
-<div style="display:flex;justify-content:space-between"><div><div class="label">目前台幣現金</div><div class="big">$12,430</div></div><div style="text-align:right"><div class="label">11/10 需要</div><div class="big red">約 $23,000</div></div></div>
-<div style="height:10px"></div><div class="progress"><div class="bar" style="width:54%"></div></div>
-<div class="notice warn" style="margin-top:12px">先補約 <b>$10,570</b> 的保費缺口。這筆補完以前，不用為了維持 DCA 硬撐。</div>
+<div id="priorityBox" class="notice">先到「設定」輸入你的資料。</div>
+<div style="height:12px"></div>
+<div class="progress"><div class="bar" id="insuranceBar" style="width:0%"></div></div>
+<div class="small" id="insuranceText" style="margin-top:8px"></div>
 </div>
 
-<h2>今天的優先順序</h2>
+<h2>你的順序</h2>
 <div class="card">
-<div class="alloc"><div><div class="dest">① 11/10 全球保險</div><div class="why">先補足約 23,000</div></div><span class="tag">最高</span></div>
-<div class="alloc"><div><div class="dest">② 近期生活費 / 卡費</div><div class="why">避免再去動 Emergency 或股票</div></div><span class="tag">必要</span></div>
-<div class="alloc"><div><div class="dest">③ 中信② Emergency</div><div class="why">保費處理完，再往 50K → 80K</div></div><span class="tag">安全墊</span></div>
-<div class="alloc"><div><div class="dest">④ DCA</div><div class="why">現金穩定後再恢復</div></div><span class="tag">成長</span></div>
+<div class="alloc"><div><div class="dest">① 近期必要支出 / 保費</div><div class="why">先處理已知、確定會發生的現金需求</div></div><span class="tag">最高</span></div>
+<div class="alloc"><div><div class="dest">② 生活 / 卡費</div><div class="why">避免短期再去動投資</div></div><span class="tag">必要</span></div>
+<div class="alloc"><div><div class="dest">③ Emergency</div><div class="why">先 50K，再到 80K</div></div><span class="tag">安全墊</span></div>
+<div class="alloc"><div><div class="dest">④ DCA</div><div class="why">現金穩定後再加速</div></div><span class="tag">成長</span></div>
 </div>
 </section>
 
 <section id="pay" class="page">
-<h2>我拿到錢了，幫我分</h2>
+<h2>這次拿到錢，怎麼分？</h2>
 <div class="card">
-<div class="grid two"><label>月份<select id="payMonth"></select></label><label>這次實拿<input id="incomeInput" class="input" type="number" value="59500"></label></div>
+<div class="grid two">
+<label>這次實拿<input id="incomeInput" class="input" type="number" placeholder="例如 59500"></label>
+<label>這月生活預算<input id="livingInput" class="input" type="number" placeholder="例如 18000"></label>
+</div>
 <div style="height:10px"></div>
-<div class="grid two"><label>目前台幣現金<input id="cashInput" class="input" type="number" value="12430"></label><label>目前 Emergency<input id="emInput" class="input" type="number" value="0"></label></div>
+<div class="grid two">
+<label>孝親<input id="parentInput" class="input" type="number" placeholder="例如 3000"></label>
+<label>Travel Fund<input id="travelInput" class="input" type="number" placeholder="例如 5000"></label>
+</div>
 <div style="height:10px"></div>
-<label class="switchrow"><input type="checkbox" id="oct20Paid" checked> 10/20 國泰 4,330 已經繳掉</label>
+<div class="grid two">
+<label>DCA<input id="dcaInput" class="input" type="number" placeholder="例如 10000"></label>
+<label>Emergency 每月補<input id="emAddInput" class="input" type="number" placeholder="例如 5000"></label>
+</div>
 <div style="height:12px"></div>
 <button class="btn" id="calcBtn">幫我分錢</button>
-<button class="btn secondary" id="saveBtn">記住目前餘額</button>
 </div>
 
 <h2>照這個順序轉</h2>
-<div class="card" id="allocation"></div>
-<div class="notice" id="allocationMsg" style="margin-top:12px"></div>
-</section>
-
-<section id="plan" class="page">
-<h2>2026 全年</h2>
-<div class="notice">1–9 月保留歷史；10–12 月是目前執行計畫。</div>
-<div class="card" style="overflow:auto;margin-top:12px"><table id="table2026"></table></div>
-<h2>選月份看各桶</h2>
-<div class="card"><div class="grid two"><select id="planYear"></select><select id="planMonth"></select></div><div id="monthPlan" style="margin-top:12px"></div></div>
+<div class="card" id="allocation"><div class="small">輸入收入後按「幫我分錢」。</div></div>
 </section>
 
 <section id="accounts" class="page">
-<h2>目前帳戶地圖</h2>
+<h2>帳戶地圖</h2>
 <div class="grid accounts">
-<div class="card"><span class="tag">收錢</span><h3>富邦｜薪資</h3><div class="value">$2,748</div><div class="small">薪水入口，分流後只留小 buffer。</div></div>
-<div class="card"><span class="tag">花錢</span><h3>中信①｜生活</h3><div class="value">$5,652</div><div class="small">日常可以用。</div></div>
-<div class="card"><span class="tag">Emergency</span><h3>中信②｜Emergency</h3><div class="small">之後專門存第一層救命錢。</div></div>
-<div class="card"><span class="tag">年度 / 目標</span><h3>國泰一般</h3><div class="value">$2,208</div><div class="small">Insurance / Travel / Marriage / Home。</div></div>
-<div class="card"><span class="tag">投資</span><h3>國泰證券</h3><div class="value">$320,549</div><div class="small">核心長期資產。</div></div>
-<div class="card"><span class="tag">美股過路</span><h3>國泰美金</h3><div class="value">US$43.63</div></div>
-<div class="card"><span class="tag">高風險</span><h3>Binance</h3><div class="value">US$450</div><div class="small">算投資，不算 Emergency。</div></div>
-<div class="card"><span class="tag">現金</span><h3>Wallet</h3><div class="value">$1,641</div></div>
-<div class="card"><span class="tag">電子支付</span><h3>LINE / iPASS</h3><div class="value">$181</div></div>
+<div class="card"><span class="tag">收錢</span><h3>富邦｜薪資</h3><div class="small">薪水總入口，分流後留小 buffer。</div></div>
+<div class="card"><span class="tag">花錢</span><h3>中信①｜生活</h3><div class="small">日常支出。</div></div>
+<div class="card"><span class="tag">Emergency</span><h3>中信②｜Emergency</h3><div class="value" id="aEmergency">—</div></div>
+<div class="card"><span class="tag">年度 / 目標</span><h3>國泰一般</h3><div class="small">Insurance / Travel / Marriage / Home。</div></div>
+<div class="card"><span class="tag">投資</span><h3>國泰證券</h3><div class="value" id="aInvest">—</div></div>
+<div class="card"><span class="tag">美股過路</span><h3>國泰美金</h3><div class="small">只留近期 DCA 所需。</div></div>
+<div class="card"><span class="tag">高風險</span><h3>Crypto / Binance</h3><div class="value" id="aCrypto">—</div><div class="small">算投資，不算 Emergency。</div></div>
+<div class="card"><span class="tag">現金</span><h3>可動用台幣現金</h3><div class="value" id="aCash">—</div></div>
 </div>
 </section>
 
@@ -109,57 +111,88 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;
 <div class="alloc"><div><div class="dest">Emergency 第一層</div><div class="why">先 50K，再到 80K</div></div><div class="money">$80K</div></div>
 <div class="alloc"><div><div class="dest">Marriage</div><div class="why">2028–2030</div></div><div class="money">$400–500K</div></div>
 <div class="alloc"><div><div class="dest">Baby / Family Buffer</div><div class="why">2030 前後</div></div><div class="money">$300–500K</div></div>
-<div class="alloc"><div><div class="dest">Home</div><div class="why">婚育後加速；買房前 1–3 年才系統性降風險</div></div><div class="money">長期</div></div>
+<div class="alloc"><div><div class="dest">Home</div><div class="why">婚育後加速；買房前 1–3 年才降風險</div></div><div class="money">長期</div></div>
+</div>
+</section>
+
+<section id="settings" class="page">
+<h2>私人資料設定</h2>
+<div class="privacy">這些值只存在你目前這個瀏覽器的 localStorage，不會寫進 GitHub repo，也不會自動傳到任何伺服器。</div>
+<div class="card" style="margin-top:12px">
+<div class="grid two">
+<label>總資產<input id="sTotal" class="input" type="number"></label>
+<label>投資資產<input id="sInvest" class="input" type="number"></label>
+<label>台幣可動用現金<input id="sCash" class="input" type="number"></label>
+<label>Emergency 餘額<input id="sEmergency" class="input" type="number"></label>
+<label>Crypto / Binance（台幣換算）<input id="sCrypto" class="input" type="number"></label>
+<label>下一筆保費<input id="sInsurance" class="input" type="number"></label>
+</div>
+<div style="height:12px"></div>
+<div class="actions"><button class="btn" id="savePrivate">儲存到這台裝置</button><button class="btn secondary" id="clearPrivate">清除私人資料</button></div>
 </div>
 </section>
 </div>
 
 <div class="bottom">
-<button class="on" data-page="home">現在</button><button data-page="pay">分薪</button><button data-page="plan">月計畫</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button>
+<button class="on" data-page="home">現在</button><button data-page="pay">分薪</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button><button data-page="settings">設定</button>
+</div>
+
+<div class="modal" id="setupModal">
+<div class="modalbox">
+<h2 style="margin-top:0">第一次使用 👋</h2>
+<div class="privacy">這版不把你的真實財務數字寫進網站原始碼。請在這台裝置輸入一次，之後會只存在瀏覽器本機。</div>
+<div style="height:12px"></div>
+<div class="grid two">
+<label>總資產<input id="mTotal" class="input" type="number" placeholder="例如 350000"></label>
+<label>投資資產<input id="mInvest" class="input" type="number" placeholder="例如 320000"></label>
+<label>台幣可動用現金<input id="mCash" class="input" type="number" placeholder="例如 12000"></label>
+<label>Emergency 餘額<input id="mEmergency" class="input" type="number" placeholder="例如 0"></label>
+<label>Crypto / Binance（台幣換算）<input id="mCrypto" class="input" type="number" placeholder="可留空"></label>
+<label>下一筆保費<input id="mInsurance" class="input" type="number" placeholder="例如 23000"></label>
+</div>
+<div style="height:12px"></div>
+<button class="btn" id="firstSave">開始使用</button>
+</div>
 </div>
 
 <script>
-const $=id=>document.getElementById(id), money=n=>'$'+Math.round(Number(n||0)).toLocaleString('zh-TW');
-const dcaByYear={2027:12000,2028:12000,2029:13000,2030:14000,2031:16000,2032:17000,2033:18000,2034:19000,2035:20000,2036:21000,2037:22000,2038:23000};
-
+const $=id=>document.getElementById(id);
+const money=n=>Number(n)>0?'$'+Math.round(Number(n)).toLocaleString('zh-TW'):'—';
+const KEY='finance_private_v28';
+const defaults={total:0,invest:0,cash:0,emergency:0,crypto:0,insurance:0};
+function load(){try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return {...defaults}}}
+function save(v){localStorage.setItem(KEY,JSON.stringify(v));render()}
+function render(){
+ const v=load();
+ $('kTotal').textContent=money(v.total);$('kInvest').textContent=money(v.invest);$('kCash').textContent=money(v.cash);$('kInsurance').textContent=money(v.insurance);
+ $('aEmergency').textContent=money(v.emergency);$('aInvest').textContent=money(v.invest);$('aCrypto').textContent=money(v.crypto);$('aCash').textContent=money(v.cash);
+ const need=Math.max(0,(+v.insurance||0)-(+v.cash||0));
+ const pct=v.insurance>0?Math.min(100,(v.cash/v.insurance)*100):0;
+ $('insuranceBar').style.width=pct+'%';
+ $('insuranceText').textContent=v.insurance>0?`目前可動用現金約覆蓋 ${Math.round(pct)}% 的下一筆保費。`:'尚未設定下一筆保費。';
+ $('priorityBox').innerHTML=v.insurance>0?(need>0?`先補 <b>${money(need)}</b> 的近期保費缺口，再補 Emergency。`:`近期保費已有足夠現金覆蓋，可以繼續補 Emergency / DCA。`):'先到「設定」輸入你的資料。';
+ ['Total','Invest','Cash','Emergency','Crypto','Insurance'].forEach(k=>{const el=$('s'+k);if(el)el.value=v[k.toLowerCase()]||''});
+}
 function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('on',x.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
-
-function initSelectors(){
- for(let y=2026;y<=2038;y++){ $('planYear').add(new Option(String(y),String(y))); for(let m=1;m<=12;m++) $('payMonth').add(new Option(`${y}/${String(m).padStart(2,'0')}`,`${y}-${m}`));}
- for(let m=1;m<=12;m++) $('planMonth').add(new Option(`${m} 月`,String(m)));
- $('payMonth').value='2026-10';$('planYear').value='2026';$('planMonth').value='10';
-}
-function targets(y,m){
- let living=Math.round(22500*Math.pow(1.02,Math.max(0,y-2027))), dca=dcaByYear[y]||23000;
- if(y===2026){living=({1:15000,2:15000,3:15000,4:15000,5:15000,6:15000,7:15000,8:15000,9:8000,10:14000,11:18000,12:15000}[m]||15000);dca=({9:7000}[m]||0)}
- return {living,parent:(y===2026&&m<=9?2000:3000),insurance:y<=2038?5500:0,travel:5000,dca,marriage:y===2027?5000:(y>=2028&&y<=2030?10000:0),home:(y>=2028&&y<=2030?10000:(y>=2031?20000:0))};
-}
-function calculate(){
- const [y,m]=$('payMonth').value.split('-').map(Number);let income=Number($('incomeInput').value||0),left=income;const cash=Number($('cashInput').value||0),em=Number($('emInput').value||0),t=targets(y,m),rows=[];
- const put=(name,want,why)=>{const amt=Math.max(0,Math.min(Number(want||0),left));left-=amt;rows.push({name,amt,why})};
- if(y===2026&&(m===10||m===11)){const extra=$('oct20Paid').checked?0:4330;put('國泰一般｜先補 11/10 保費',Math.max(0,23000+extra-cash),'目前第一優先')}
- put('中信①｜生活桶',t.living,'這個月可以花的上限');put('孝親',t.parent,'固定');
- if(!(y===2026&&(m===10||m===11)))put('國泰一般｜Insurance',t.insurance,'每月預留年度保費');
- put('國泰一般｜Travel',t.travel,'平月先存 5,000；獎金月再補');
- if(!(y===2026&&(m===10||m===11)))put('中信②｜Emergency',Math.min(5000,Math.max(0,50000-em)),'先做到 50K，再往 80K');
- put('國泰證券 / 國泰美金｜DCA',t.dca,'現金穩定後恢復；0050 / VOO 核心');
- put('國泰一般｜Marriage',t.marriage,'婚育近程目標');put('國泰一般｜Home',t.home,'婚育後加速');
- if(left>0)put('Goal Buffer',left,'下月 / Marriage / Home');
- const list=$('allocation');list.innerHTML='';
- rows.filter(r=>r.amt>0).forEach(r=>{const el=document.createElement('div');el.className='alloc';el.innerHTML=`<div><label><input type="checkbox" class="check"> <span class="dest">${r.name}</span></label><div class="why">${r.why}</div></div><div class="money">${money(r.amt)}</div>`;const c=el.querySelector('input');c.addEventListener('change',()=>el.classList.toggle('done',c.checked));list.appendChild(el)});
- $('allocationMsg').textContent=(y===2026&&(m===10||m===11))?'這兩個月先守 11/10 保費和基本生活；DCA 可以暫停。':'分完後，富邦盡量只留小 buffer。';
-}
-function saveState(){localStorage.setItem('finance_cash',$('cashInput').value);localStorage.setItem('finance_em',$('emInput').value)}
-function render2026(){
- const living={1:15000,2:15000,3:15000,4:15000,5:15000,6:15000,7:15000,8:15000,9:8000,10:14000,11:18000,12:15000},parent={1:0,2:0,3:0,4:0,5:0,6:0,7:2000,8:2000,9:2000,10:2000,11:3000,12:3000},dca={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:7000,10:0,11:0,12:0},card={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:39448,10:51526,11:14481,12:13482},big={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:9506,10:0,11:23000,12:0};
- let h='<thead><tr><th>月</th><th>狀態</th><th>生活</th><th>孝親</th><th>DCA</th><th>卡費</th><th>大額/保費</th><th>備註</th></tr></thead><tbody>';
- for(let m=1;m<=12;m++){let note=m<=8?'可補實際值':m===9?'Bali / 卡費高峰':m===10?'先補 11/10 保費':m===11?'全球保險約 23K':'年底守現金流';h+=`<tr><td>${m}月</td><td>${m<=9?'歷史':'計畫'}</td><td>${money(living[m])}</td><td>${money(parent[m])}</td><td>${money(dca[m])}</td><td>${money(card[m])}</td><td>${money(big[m])}</td><td>${note}</td></tr>`}
- $('table2026').innerHTML=h+'</tbody>';
-}
-function renderMonth(){const y=Number($('planYear').value),m=Number($('planMonth').value),t=targets(y,m);const rows=[['中信①｜Living',t.living],['孝親',t.parent],['Insurance',t.insurance],['Travel',t.travel],['DCA',t.dca],['Marriage',t.marriage],['Home',t.home]].filter(x=>x[1]>0);$('monthPlan').innerHTML=rows.map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('')}
-function init(){initSelectors();const sc=localStorage.getItem('finance_cash');if(sc!==null)$('cashInput').value=sc;const se=localStorage.getItem('finance_em');if(se!==null)$('emInput').value=se;$('calcBtn').addEventListener('click',calculate);$('saveBtn').addEventListener('click',saveState);$('planYear').addEventListener('change',renderMonth);$('planMonth').addEventListener('change',renderMonth);calculate();render2026();renderMonth()}
-document.addEventListener('DOMContentLoaded',init);
+$('savePrivate').addEventListener('click',()=>save({total:+$('sTotal').value||0,invest:+$('sInvest').value||0,cash:+$('sCash').value||0,emergency:+$('sEmergency').value||0,crypto:+$('sCrypto').value||0,insurance:+$('sInsurance').value||0}));
+$('clearPrivate').addEventListener('click',()=>{localStorage.removeItem(KEY);render();$('setupModal').classList.add('on')});
+$('firstSave').addEventListener('click',()=>{save({total:+$('mTotal').value||0,invest:+$('mInvest').value||0,cash:+$('mCash').value||0,emergency:+$('mEmergency').value||0,crypto:+$('mCrypto').value||0,insurance:+$('mInsurance').value||0});$('setupModal').classList.remove('on')});
+$('calcBtn').addEventListener('click',()=>{
+ const v=load(), income=+$('incomeInput').value||0, living=+$('livingInput').value||0, parent=+$('parentInput').value||0, travel=+$('travelInput').value||0, dca=+$('dcaInput').value||0, emAdd=+$('emAddInput').value||0;
+ let left=income, rows=[];
+ const put=(name,want,why)=>{let a=Math.max(0,Math.min(want,left));left-=a;if(a>0)rows.push([name,a,why])};
+ const gap=Math.max(0,(+v.insurance||0)-(+v.cash||0));
+ put('國泰一般｜近期保費',gap,'先補近期確定現金需求');
+ put('中信①｜生活',living,'這個月生活上限');
+ put('孝親',parent,'固定');
+ put('國泰一般｜Travel',travel,'旅遊沉澱金');
+ put('中信②｜Emergency',emAdd,'先往 50K，再到 80K');
+ put('國泰證券 / 國泰美金｜DCA',dca,'現金穩定後再加速');
+ if(left>0)put('Goal Buffer',left,'留給 Marriage / Home / 下月');
+ $('allocation').innerHTML=rows.length?rows.map(r=>`<div class="alloc"><div><div class="dest">${r[0]}</div><div class="why">${r[2]}</div></div><div class="money">${money(r[1])}</div></div>`).join(''):'<div class="small">目前沒有可分配金額。</div>';
+});
+document.addEventListener('DOMContentLoaded',()=>{render();if(!localStorage.getItem(KEY))$('setupModal').classList.add('on')});
 </script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}</script>
 </body>
