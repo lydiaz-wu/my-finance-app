@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="財務小管家">
+<meta name="theme-color" content="#172235">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>我的財務小管家</title>
+<style>
+:root{--bg:#111522;--card:#1a2030;--text:#f4f6f8;--muted:#9ca7b5;--line:#30384a;--lime:#91d34f;--gold:#f6c85f;--red:#ff6969}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
+.app{max-width:1080px;margin:auto;padding:18px 15px 92px}.hero{padding:25px 20px;background:linear-gradient(140deg,#172235,#222b40);border:1px solid var(--line);border-radius:24px}
+.hero h1{font-size:29px;margin:6px 0}.hero p{margin:0;color:var(--muted)}.eyebrow{font-size:11px;color:var(--muted)}
+.nav{display:flex;gap:8px;overflow:auto;position:sticky;top:0;z-index:10;padding:12px 0;background:rgba(17,21,34,.96)}.nav button{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:10px 14px;border-radius:99px;font-weight:700;white-space:nowrap}.nav button.on{background:var(--lime);color:#13200d}
+.page{display:none}.page.on{display:block}.grid{display:grid;gap:13px}.kpis{grid-template-columns:repeat(4,1fr);margin-top:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;margin-top:4px}.lime{color:var(--lime)}.red{color:var(--red)}.gold{color:var(--gold)}
+h2{font-size:19px;margin:25px 0 10px}h3{font-size:16px;margin:0 0 9px}.small{font-size:12px;color:var(--muted)}.big{font-size:18px;font-weight:800}
+.notice{padding:14px 15px;border-radius:14px;background:#262c3c;border:1px solid var(--line);font-size:13px}.warn{background:#29251c}.good{background:#18261a}.bad{background:#2b1c1c}
+.progress{height:12px;background:#2a3141;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--lime)}
+.accounts{grid-template-columns:repeat(3,1fr)}.tag{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;margin-bottom:8px;background:#2a3448;color:#d8e7fa}
+.input,select{width:100%;border:1px solid var(--line);background:#141a27;color:var(--text);border-radius:12px;padding:12px;font-size:16px}.btn{border:0;border-radius:13px;padding:13px 16px;font-size:15px;font-weight:800;background:var(--lime);color:#14200e}.btn.secondary{background:#2b3344;color:var(--text)}
+.two{grid-template-columns:1fr 1fr}.alloc{display:grid;grid-template-columns:1fr auto;gap:5px 12px;padding:12px 0;border-bottom:1px solid var(--line)}.alloc:last-child{border:0}.dest{font-weight:800}.why{font-size:12px;color:var(--muted)}.money{font-weight:900}
+.check{width:21px;height:21px;accent-color:#91d34f}.done{opacity:.42;text-decoration:line-through}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{background:#202737}
+.switchrow{display:flex;align-items:center;gap:10px}.switchrow input{width:20px;height:20px;accent-color:#91d34f}
+.bottom{display:none;position:fixed;left:0;right:0;bottom:0;background:rgba(17,21,34,.98);border-top:1px solid var(--line);z-index:20}.bottom button{flex:1;background:none;border:0;color:var(--muted);padding:11px 4px;font-size:11px}.bottom button.on{color:var(--lime);font-weight:800}
+@media(max-width:760px){.kpis{grid-template-columns:1fr 1fr}.accounts,.two{grid-template-columns:1fr}.nav{display:none}.bottom{display:flex}.hero{margin:-18px -15px 0;border-radius:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero"><div class="eyebrow">ACTUAL SNAPSHOT · 2026/10/24</div><h1>我的財務小管家 💸</h1><p>先處理 11/10 保費，再補 Emergency，再拉回 DCA。</p></header>
+
+<nav class="nav">
+<button class="on" data-page="home">現在</button><button data-page="pay">這次薪水怎麼分</button><button data-page="plan">月計畫</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button>
+</nav>
+
+<section id="home" class="page on">
+<div class="grid kpis">
+<div class="card"><div class="label">目前總資產</div><div class="value lime">$349,090</div><div class="small">10/24 Account Overview</div></div>
+<div class="card"><div class="label">國泰證券</div><div class="value">$320,549</div><div class="small">約占總資產 92%</div></div>
+<div class="card"><div class="label">台幣可動用現金</div><div class="value gold">$12,430</div><div class="small">不含股票 / Binance / 美金</div></div>
+<div class="card"><div class="label">11/10 全球保費</div><div class="value red">約 $23,000</div><div class="small">目前最高優先</div></div>
+</div>
+
+<h2>保費還差多少？</h2>
+<div class="card">
+<div style="display:flex;justify-content:space-between"><div><div class="label">目前台幣現金</div><div class="big">$12,430</div></div><div style="text-align:right"><div class="label">11/10 需要</div><div class="big red">約 $23,000</div></div></div>
+<div style="height:10px"></div><div class="progress"><div class="bar" style="width:54%"></div></div>
+<div class="notice warn" style="margin-top:12px">先補約 <b>$10,570</b> 的保費缺口。這筆補完以前，不用為了維持 DCA 硬撐。</div>
+</div>
+
+<h2>今天的優先順序</h2>
+<div class="card">
+<div class="alloc"><div><div class="dest">① 11/10 全球保險</div><div class="why">先補足約 23,000</div></div><span class="tag">最高</span></div>
+<div class="alloc"><div><div class="dest">② 近期生活費 / 卡費</div><div class="why">避免再去動 Emergency 或股票</div></div><span class="tag">必要</span></div>
+<div class="alloc"><div><div class="dest">③ 中信② Emergency</div><div class="why">保費處理完，再往 50K → 80K</div></div><span class="tag">安全墊</span></div>
+<div class="alloc"><div><div class="dest">④ DCA</div><div class="why">現金穩定後再恢復</div></div><span class="tag">成長</span></div>
+</div>
+</section>
+
+<section id="pay" class="page">
+<h2>我拿到錢了，幫我分</h2>
+<div class="card">
+<div class="grid two"><label>月份<select id="payMonth"></select></label><label>這次實拿<input id="incomeInput" class="input" type="number" value="59500"></label></div>
+<div style="height:10px"></div>
+<div class="grid two"><label>目前台幣現金<input id="cashInput" class="input" type="number" value="12430"></label><label>目前 Emergency<input id="emInput" class="input" type="number" value="0"></label></div>
+<div style="height:10px"></div>
+<label class="switchrow"><input type="checkbox" id="oct20Paid" checked> 10/20 國泰 4,330 已經繳掉</label>
+<div style="height:12px"></div>
+<button class="btn" id="calcBtn">幫我分錢</button>
+<button class="btn secondary" id="saveBtn">記住目前餘額</button>
+</div>
+
+<h2>照這個順序轉</h2>
+<div class="card" id="allocation"></div>
+<div class="notice" id="allocationMsg" style="margin-top:12px"></div>
+</section>
+
+<section id="plan" class="page">
+<h2>2026 全年</h2>
+<div class="notice">1–9 月保留歷史；10–12 月是目前執行計畫。</div>
+<div class="card" style="overflow:auto;margin-top:12px"><table id="table2026"></table></div>
+<h2>選月份看各桶</h2>
+<div class="card"><div class="grid two"><select id="planYear"></select><select id="planMonth"></select></div><div id="monthPlan" style="margin-top:12px"></div></div>
+</section>
+
+<section id="accounts" class="page">
+<h2>目前帳戶地圖</h2>
+<div class="grid accounts">
+<div class="card"><span class="tag">收錢</span><h3>富邦｜薪資</h3><div class="value">$2,748</div><div class="small">薪水入口，分流後只留小 buffer。</div></div>
+<div class="card"><span class="tag">花錢</span><h3>中信①｜生活</h3><div class="value">$5,652</div><div class="small">日常可以用。</div></div>
+<div class="card"><span class="tag">Emergency</span><h3>中信②｜Emergency</h3><div class="small">之後專門存第一層救命錢。</div></div>
+<div class="card"><span class="tag">年度 / 目標</span><h3>國泰一般</h3><div class="value">$2,208</div><div class="small">Insurance / Travel / Marriage / Home。</div></div>
+<div class="card"><span class="tag">投資</span><h3>國泰證券</h3><div class="value">$320,549</div><div class="small">核心長期資產。</div></div>
+<div class="card"><span class="tag">美股過路</span><h3>國泰美金</h3><div class="value">US$43.63</div></div>
+<div class="card"><span class="tag">高風險</span><h3>Binance</h3><div class="value">US$450</div><div class="small">算投資，不算 Emergency。</div></div>
+<div class="card"><span class="tag">現金</span><h3>Wallet</h3><div class="value">$1,641</div></div>
+<div class="card"><span class="tag">電子支付</span><h3>LINE / iPASS</h3><div class="value">$181</div></div>
+</div>
+</section>
+
+<section id="goals" class="page">
+<h2>人生目標</h2>
+<div class="card">
+<div class="alloc"><div><div class="dest">Emergency 第一層</div><div class="why">先 50K，再到 80K</div></div><div class="money">$80K</div></div>
+<div class="alloc"><div><div class="dest">Marriage</div><div class="why">2028–2030</div></div><div class="money">$400–500K</div></div>
+<div class="alloc"><div><div class="dest">Baby / Family Buffer</div><div class="why">2030 前後</div></div><div class="money">$300–500K</div></div>
+<div class="alloc"><div><div class="dest">Home</div><div class="why">婚育後加速；買房前 1–3 年才系統性降風險</div></div><div class="money">長期</div></div>
+</div>
+</section>
+</div>
+
+<div class="bottom">
+<button class="on" data-page="home">現在</button><button data-page="pay">分薪</button><button data-page="plan">月計畫</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button>
+</div>
+
+<script>
+const $=id=>document.getElementById(id), money=n=>'$'+Math.round(Number(n||0)).toLocaleString('zh-TW');
+const dcaByYear={2027:12000,2028:12000,2029:13000,2030:14000,2031:16000,2032:17000,2033:18000,2034:19000,2035:20000,2036:21000,2037:22000,2038:23000};
+
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('on',x.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+
+function initSelectors(){
+ for(let y=2026;y<=2038;y++){ $('planYear').add(new Option(String(y),String(y))); for(let m=1;m<=12;m++) $('payMonth').add(new Option(`${y}/${String(m).padStart(2,'0')}`,`${y}-${m}`));}
+ for(let m=1;m<=12;m++) $('planMonth').add(new Option(`${m} 月`,String(m)));
+ $('payMonth').value='2026-10';$('planYear').value='2026';$('planMonth').value='10';
+}
+function targets(y,m){
+ let living=Math.round(22500*Math.pow(1.02,Math.max(0,y-2027))), dca=dcaByYear[y]||23000;
+ if(y===2026){living=({1:15000,2:15000,3:15000,4:15000,5:15000,6:15000,7:15000,8:15000,9:8000,10:14000,11:18000,12:15000}[m]||15000);dca=({9:7000}[m]||0)}
+ return {living,parent:(y===2026&&m<=9?2000:3000),insurance:y<=2038?5500:0,travel:5000,dca,marriage:y===2027?5000:(y>=2028&&y<=2030?10000:0),home:(y>=2028&&y<=2030?10000:(y>=2031?20000:0))};
+}
+function calculate(){
+ const [y,m]=$('payMonth').value.split('-').map(Number);let income=Number($('incomeInput').value||0),left=income;const cash=Number($('cashInput').value||0),em=Number($('emInput').value||0),t=targets(y,m),rows=[];
+ const put=(name,want,why)=>{const amt=Math.max(0,Math.min(Number(want||0),left));left-=amt;rows.push({name,amt,why})};
+ if(y===2026&&(m===10||m===11)){const extra=$('oct20Paid').checked?0:4330;put('國泰一般｜先補 11/10 保費',Math.max(0,23000+extra-cash),'目前第一優先')}
+ put('中信①｜生活桶',t.living,'這個月可以花的上限');put('孝親',t.parent,'固定');
+ if(!(y===2026&&(m===10||m===11)))put('國泰一般｜Insurance',t.insurance,'每月預留年度保費');
+ put('國泰一般｜Travel',t.travel,'平月先存 5,000；獎金月再補');
+ if(!(y===2026&&(m===10||m===11)))put('中信②｜Emergency',Math.min(5000,Math.max(0,50000-em)),'先做到 50K，再往 80K');
+ put('國泰證券 / 國泰美金｜DCA',t.dca,'現金穩定後恢復；0050 / VOO 核心');
+ put('國泰一般｜Marriage',t.marriage,'婚育近程目標');put('國泰一般｜Home',t.home,'婚育後加速');
+ if(left>0)put('Goal Buffer',left,'下月 / Marriage / Home');
+ const list=$('allocation');list.innerHTML='';
+ rows.filter(r=>r.amt>0).forEach(r=>{const el=document.createElement('div');el.className='alloc';el.innerHTML=`<div><label><input type="checkbox" class="check"> <span class="dest">${r.name}</span></label><div class="why">${r.why}</div></div><div class="money">${money(r.amt)}</div>`;const c=el.querySelector('input');c.addEventListener('change',()=>el.classList.toggle('done',c.checked));list.appendChild(el)});
+ $('allocationMsg').textContent=(y===2026&&(m===10||m===11))?'這兩個月先守 11/10 保費和基本生活；DCA 可以暫停。':'分完後，富邦盡量只留小 buffer。';
+}
+function saveState(){localStorage.setItem('finance_cash',$('cashInput').value);localStorage.setItem('finance_em',$('emInput').value)}
+function render2026(){
+ const living={1:15000,2:15000,3:15000,4:15000,5:15000,6:15000,7:15000,8:15000,9:8000,10:14000,11:18000,12:15000},parent={1:0,2:0,3:0,4:0,5:0,6:0,7:2000,8:2000,9:2000,10:2000,11:3000,12:3000},dca={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:7000,10:0,11:0,12:0},card={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:39448,10:51526,11:14481,12:13482},big={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:9506,10:0,11:23000,12:0};
+ let h='<thead><tr><th>月</th><th>狀態</th><th>生活</th><th>孝親</th><th>DCA</th><th>卡費</th><th>大額/保費</th><th>備註</th></tr></thead><tbody>';
+ for(let m=1;m<=12;m++){let note=m<=8?'可補實際值':m===9?'Bali / 卡費高峰':m===10?'先補 11/10 保費':m===11?'全球保險約 23K':'年底守現金流';h+=`<tr><td>${m}月</td><td>${m<=9?'歷史':'計畫'}</td><td>${money(living[m])}</td><td>${money(parent[m])}</td><td>${money(dca[m])}</td><td>${money(card[m])}</td><td>${money(big[m])}</td><td>${note}</td></tr>`}
+ $('table2026').innerHTML=h+'</tbody>';
+}
+function renderMonth(){const y=Number($('planYear').value),m=Number($('planMonth').value),t=targets(y,m);const rows=[['中信①｜Living',t.living],['孝親',t.parent],['Insurance',t.insurance],['Travel',t.travel],['DCA',t.dca],['Marriage',t.marriage],['Home',t.home]].filter(x=>x[1]>0);$('monthPlan').innerHTML=rows.map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('')}
+function init(){initSelectors();const sc=localStorage.getItem('finance_cash');if(sc!==null)$('cashInput').value=sc;const se=localStorage.getItem('finance_em');if(se!==null)$('emInput').value=se;$('calcBtn').addEventListener('click',calculate);$('saveBtn').addEventListener('click',saveState);$('planYear').addEventListener('change',renderMonth);$('planMonth').addEventListener('change',renderMonth);calculate();render2026();renderMonth()}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}</script>
+</body>
+</html>
