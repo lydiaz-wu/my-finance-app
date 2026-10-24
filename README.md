@@ -1,6 +1,8 @@
-# 我的財務小管家 v29
-Public-safe goal tracker. Personal salary/assets/plan are imported locally from a private JSON file and stored in browser localStorage.
+# 我的財務小管家 v30
 
-Deploy with GitHub Pages from `main` / `(root)`.
-
-Important: do NOT commit your private plan JSON. `.gitignore` includes a matching pattern as an extra safeguard.
+修正重點：
+- 2026/10/24 為真正的基準月，目標資產 = 349,090。
+- 2026/11 才開始套用完整收入 / 支出規劃。
+- 每月直接顯示「收入、真正支出、資產淨變化」，避免誤以為薪水沒算進去。
+- 11 月：收入 59,500；真正支出 58,481；資產淨增加 1,019；月底目標 350,109。
+- 私人規劃仍透過本機 JSON 匯入，不放進 Public repo。

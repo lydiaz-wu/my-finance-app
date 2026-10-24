@@ -25,7 +25,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;b
 </head>
 <body>
 <div class="app">
-<header class="hero"><div class="eyebrow">GOAL TRACKER · v29</div><h1>我的財務小管家 💸</h1><p>不只分錢，還要知道自己有沒有走在「100 萬路線」上。</p></header>
+<header class="hero"><div class="eyebrow">GOAL TRACKER · v30</div><h1>我的財務小管家 💸</h1><p>不只分錢，還要知道自己有沒有走在「100 萬路線」上。</p></header>
 <nav class="nav">
 <button class="on" data-page="home">總覽</button><button data-page="month">本月</button><button data-page="roadmap">資產路線</button><button data-page="goals">目標</button><button data-page="settings">設定</button>
 </nav>
@@ -97,7 +97,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;b
 
 <script>
 const $=id=>document.getElementById(id), money=n=>Number.isFinite(Number(n))?'$'+Math.round(Number(n)).toLocaleString('zh-TW'):'—';
-const PLANKEY='finance_plan_v29', ACTKEY='finance_actuals_v29', PROFILE='finance_profile_v29';
+const PLANKEY='finance_plan_v30', ACTKEY='finance_actuals_v30', PROFILE='finance_profile_v30';
 const getJSON=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
 const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
@@ -125,7 +125,7 @@ function renderHome(){
  const million=p.find(r=>r.target_asset>=1000000);$('millionDate').textContent=million?`${million.year}/${String(million.month).padStart(2,'0')}`:'規劃外';
  $('millionMsg').innerHTML=`依目前保守規劃，目標約在 <b>${million.year}/${String(million.month).padStart(2,'0')}</b> 達到 100 萬；目前完成 ${Math.round(actual/10000)}%。`;
  const idx=p.indexOf(row), next=p.slice(Math.max(0,idx),Math.max(0,idx)+3);
- $('next3').innerHTML=next.map(r=>`<div class="alloc"><div><div class="dest">${r.year}/${String(r.month).padStart(2,'0')}</div><div class="why">收入 ${money(r.income)} · 生活/保費/旅遊/卡費後</div></div><div class="money">${money(r.target_asset)}</div></div>`).join('');
+ $('next3').innerHTML=next.map(r=>{const spend=(r.living||0)+(r.parent||0)+(r.insurance||0)+(r.travel||0)+(r.card||0);const net=(r.income||0)-spend;const detail=r.baseline?'10/24 實際資產基準':`收入 ${money(r.income)} · 真正支出 ${money(spend)} · 淨變化 ${(net>=0?'+':'')+money(net)}`;return `<div class="alloc"><div><div class="dest">${r.year}/${String(r.month).padStart(2,'0')}</div><div class="why">${detail}</div></div><div class="money">${money(r.target_asset)}</div></div>`}).join('');
 }
 function renderRoadmap(){
  const p=plan(), acts=actuals(); if(!p.length){$('roadmapTable').innerHTML='<tr><td>尚未匯入規劃</td></tr>';return}
@@ -139,8 +139,9 @@ function fillMonthSelect(){
 }
 function renderMonth(){
  const p=plan(), r=p.find(x=>key(x)===$('monthSelect').value);if(!r)return;const acts=actuals();$('monthActual').value=acts[key(r)]??'';
+ const spend=(r.living||0)+(r.parent||0)+(r.insurance||0)+(r.travel||0)+(r.card||0);const net=(r.income||0)-spend;
  $('monthCashflow').innerHTML=[
- ['收入',r.income],['生活',r.living],['孝親',r.parent],['保費',r.insurance],['旅遊',r.travel],['卡費',r.card],['月底目標資產',r.target_asset]
+ ['收入',r.income],['生活',r.living],['孝親',r.parent],['保費',r.insurance],['旅遊',r.travel],['卡費',r.card],['本月真正支出合計',spend],['本月資產淨變化',net],['月底目標資產',r.target_asset]
  ].map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('');
  $('monthAlloc').innerHTML=[
  ['Emergency',r.emergency_add],['DCA',r.dca],['Marriage',r.marriage],['Home',r.home],['Goal Buffer',r.buffer]
