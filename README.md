@@ -20,3 +20,4 @@
 - 同一瀏覽器可用 localStorage 記住餘額
 
 注意：GitHub Pages 是靜態網站，輸入值只存在該瀏覽器，不會自動跨裝置同步。
+# my-finance-app
