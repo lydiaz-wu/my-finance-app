@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#172235"><meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png">
-<title>我的財務小管家</title>
+<title>我的財務小管家 v32</title>
 <style>
 :root{--bg:#101522;--card:#1a2030;--card2:#20283a;--line:#303a4e;--text:#f5f7fa;--muted:#9ba8ba;--lime:#94d64f;--gold:#f4c760;--red:#ff7272;--blue:#70b8ff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
@@ -21,13 +21,14 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;b
 .tablewrap{overflow:auto;max-height:560px;border-radius:13px}.positive{color:var(--lime)}.negative{color:var(--red)}
 .bottom{display:none;position:fixed;left:0;right:0;bottom:0;background:rgba(16,21,34,.98);border-top:1px solid var(--line);z-index:20}.bottom button{flex:1;border:0;background:none;color:var(--muted);padding:11px 3px;font-size:11px}.bottom button.on{color:var(--lime);font-weight:850}
 @media(max-width:760px){.kpis{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.nav{display:none}.bottom{display:flex}.hero{margin:-18px -15px 0;border-radius:0}.app{padding-bottom:80px}}
+.subhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.stack{display:grid;gap:10px}.formgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.hint{color:var(--muted);font-size:12px;line-height:1.6}.status{margin-top:9px;color:var(--lime);font-size:12px}.row-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.warning{color:var(--gold)}.chip{display:inline-block;border:1px solid var(--line);padding:3px 8px;border-radius:99px;font-size:11px}.tablemini{max-height:280px;overflow:auto}.goal-row{padding:12px 0;border-bottom:1px solid var(--line)}.goal-row:last-child{border:0}@media(max-width:760px){.formgrid{grid-template-columns:1fr 1fr}}@media(max-width:420px){.formgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="hero"><div class="eyebrow">GOAL TRACKER · v31</div><h1>我的財務小管家 💸</h1><p>不只分錢，還要知道自己有沒有走在「100 萬路線」上。</p></header>
+<header class="hero"><div class="eyebrow">GOAL TRACKER · v32</div><h1>我的財務小管家 💸</h1><p>不只分錢，還要知道自己有沒有走在「100 萬路線」上。</p></header>
 <nav class="nav">
-<button class="on" data-page="home">總覽</button><button data-page="month">本月</button><button data-page="roadmap">資產路線</button><button data-page="goals">目標</button><button data-page="settings">設定</button>
+<button class="on" data-page="home">總覽</button><button data-page="month">本月</button><button data-page="roadmap">資產路線</button><button data-page="goals">目標</button><button data-page="ledger">交易／信用卡</button><button data-page="settings">設定</button>
 </nav>
 
 <section id="home" class="page on">
@@ -38,6 +39,8 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;b
 <div class="card"><div class="label">下一個里程碑</div><div class="value gold" id="millionDate">—</div></div>
 </div>
 
+<h2>原訂每月存款／資產目標（永久保留）</h2>
+<div class="card"><div class="grid two"><div><div class="label">本月原訂正式資產目標</div><div class="value" id="originalMonthlyTarget">—</div></div><div><div class="label">本月實際淨資產</div><div class="value lime" id="monthlyActualDisplay">—</div></div></div><div class="notice" style="margin-top:12px" id="monthlyProgressNote">原訂目標不隨調整而覆蓋。</div><div class="hint" style="margin-top:8px">正式里程碑固定：2028/02 100 萬、2030/12 300 萬。保守現金流線持續顯示。</div></div>
 <h2>100 萬進度</h2>
 <div class="card">
 <div style="display:flex;justify-content:space-between;gap:12px"><div><div class="label">目前</div><div class="value" id="millionCurrent">—</div></div><div style="text-align:right"><div class="label">目標</div><div class="value">$1,000,000</div></div></div>
@@ -51,7 +54,9 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;b
 
 <section id="month" class="page">
 <h2>這個月應該長怎樣？</h2>
-<div class="card"><div class="grid two"><select id="monthSelect"></select><label>更新實際總資產<input class="input" id="monthActual" type="number"></label></div><div style="height:10px"></div><button class="btn" id="saveActual">儲存實際資產</button></div>
+<div class="notice">推薦在下方輸入月底各帳戶實際餘額，系統自動計算淨資產；原本直接輸入「實際總資產」的方式仍可使用。銀行轉入投資、信用卡繳款不是新支出。</div>
+<div class="card" style="margin-top:12px"><h3>月底實際餘額（推薦）</h3><div class="formgrid"><label>銀行可動用現金<input id="mCash" class="input" type="number" min="0" step="0.01"></label><label>投資帳戶市值<input id="mInvest" class="input" type="number" min="0" step="0.01"></label><label>其他資產（不含前兩項）<input id="mOther" class="input" type="number" min="0" step="0.01"></label><label>信用卡尚未清償總額<input id="mCardDebt" class="input" type="number" min="0" step="0.01"></label><label>其他負債<input id="mOtherDebt" class="input" type="number" min="0" step="0.01"></label></div><div class="row-actions"><button id="saveBreakdown" class="btn">儲存餘額並計算淨資產</button></div><div id="breakdownPreview" class="status"></div><div class="hint">信用卡尚未清償總額包含所有已刷未付的分期餘額；緊急預備金若已在銀行存款內，不要再加到其他資產。</div></div>
+<div class="card"><div class="grid two"><select id="monthSelect"></select><label>手動更新實際淨資產（舊版相容）<input class="input" id="monthActual" type="number"></label></div><div style="height:10px"></div><button class="btn secondary" id="saveActual">儲存手動淨資產</button><div class="hint" style="margin-top:8px">若你已儲存上方分項餘額，此欄會由系統自動更新；手動覆寫不會修改分項餘額。</div></div>
 <div class="grid two" style="margin-top:13px">
 <div class="card"><h3>現金流</h3><div id="monthCashflow"></div></div>
 <div class="card"><h3>資產內部分配</h3><div id="monthAlloc"></div></div>
@@ -69,15 +74,21 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;b
 <div class="card">
 <div class="alloc"><div><div class="dest">第一桶金</div><div class="why">正式里程碑：2028/02</div></div><div class="money">$1,000,000</div></div>
 <div class="alloc"><div><div class="dest">300 萬里程碑</div><div class="why">正式里程碑：2030/12</div></div><div class="money">$3,000,000</div></div><div class="alloc"><div><div class="dest">Emergency</div><div class="why">先 50K，再 80K；家庭責任增加再上調</div></div><div class="money">$80K</div></div>
-<div class="alloc"><div><div class="dest">Marriage</div><div class="why">2028–2030</div></div><div class="money">$400–500K</div></div>
+<div class="alloc"><div><div class="dest">Marriage（可配置於 DCA）</div><div class="why">2028–2030；預留是資產用途，不是額外資產</div></div><div class="money">$400–500K</div></div>
 <div class="alloc"><div><div class="dest">Baby / Family Buffer</div><div class="why">2030 前後</div></div><div class="money">$300–500K</div></div>
 <div class="alloc"><div><div class="dest">Home</div><div class="why">婚育後加速；買房前 1–3 年再降投資風險</div></div><div class="money">長期</div></div>
 </div>
+<div class="card" style="margin-top:14px"><h3>用途預留額度（不增加總資產）</h3><div class="formgrid"><label>💍 結婚已預留<input id="reserveMarriage" class="input" type="number" min="0"></label><label>✈️ 旅遊已預留<input id="reserveTravel" class="input" type="number" min="0"></label><label>🧯 緊急預備已預留<input id="reserveEmergency" class="input" type="number" min="0"></label><label>🏠 買房已預留<input id="reserveHome" class="input" type="number" min="0"></label><label>💍 結婚預計支出<input id="plannedMarriageExpense" class="input" type="number" min="0"></label><label>💍 預計支出月份<input id="plannedMarriageMonth" class="input" type="month"></label><label>✈️ 旅遊預計支出<input id="plannedTravelExpense" class="input" type="number" min="0"></label><label>✈️ 預計支出月份<input id="plannedTravelMonth" class="input" type="month"></label></div><div class="row-actions"><button class="btn" id="saveReserves">儲存預留與未來支出</button></div><div id="reserveSummary" class="hint"></div></div>
+</section>
+<section id="ledger" class="page">
+<h2>資產移轉與信用卡交易</h2><div class="notice">交易記錄與每月實際餘額分開保存。新增交易不會偷偷修改你已確認的月底實際淨資產；月底仍以實際帳戶餘額對帳。消費認列在刷卡當月，繳款只減少現金與負債，不再重複認列支出。</div>
+<div class="card" style="margin-top:12px"><h3>新增交易</h3><div class="formgrid"><label>日期<input class="input" id="txDate" type="date"></label><label>交易類型<select id="txType"><option value="expense">現金／轉帳消費</option><option value="card_purchase">信用卡消費</option><option value="card_payment">信用卡繳款</option><option value="transfer">帳戶資產移轉／DCA</option><option value="allocation">資金用途標記</option><option value="income">收入</option></select></label><label>金額<input class="input" id="txAmount" type="number" min="0.01" step="0.01"></label><label>來源帳戶／類別<input class="input" id="txFrom" placeholder="銀行／信用卡／生活"></label><label>去向帳戶／用途<input class="input" id="txTo" placeholder="投資／結婚／旅遊"></label><label>信用卡分期期數（刷卡時）<input class="input" id="txInstallments" type="number" min="1" max="120" value="1"></label><label>首期帳單月份（選填）<input class="input" id="txFirstMonth" type="month"></label><label>備註<input class="input" id="txNote" placeholder="選填"></label></div><div class="row-actions"><button class="btn" id="addTx">新增交易</button></div><div id="txStatus" class="status"></div></div>
+<div class="card" style="margin-top:12px"><h3>當月消費與還款摘要</h3><div id="ledgerSummary" class="stack"></div><h3 style="margin-top:18px">已記錄交易</h3><div class="tablemini"><table><thead><tr><th>日期</th><th>類型</th><th>金額</th><th>說明</th><th>操作</th></tr></thead><tbody id="txRows"></tbody></table></div></div>
 </section>
 
 <section id="settings" class="page">
 <h2>私人規劃資料</h2>
-<div class="notice">Public GitHub repo 裡沒有你的資產、薪水或每月規劃。請匯入我另外給你的私人 JSON；資料只存在此瀏覽器 localStorage。</div>
+<div class="notice">Public GitHub repo 裡沒有你的資產、薪水或每月規劃。請匯入我另外給你的私人 JSON；資料只存在此瀏覽器 localStorage。請定期匯出備份；清除瀏覽器資料可能使本機紀錄遺失。</div>
 <div class="card" style="margin-top:12px">
 <label>匯入私人 JSON<input id="importFile" class="input" type="file" accept=".json,application/json"></label>
 <div style="height:12px"></div>
@@ -85,81 +96,56 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;b
 <label>目前總資產<input id="sCurrentAsset" class="input" type="number"></label>
 <label>目前投資資產<input id="sInvestment" class="input" type="number"></label>
 <label>目前可動用現金<input id="sCash" class="input" type="number"></label>
-<label>Emergency<input id="sEmergency" class="input" type="number"></label>
+<label>Emergency（資訊欄；不要重複計入總資產）<input id="sEmergency" class="input" type="number"></label>
 </div>
 <div style="height:12px"></div><button class="btn" id="saveProfile">儲存目前數字</button>
-<button class="btn secondary" id="exportData">匯出我的本機資料</button>
+<button class="btn secondary" id="exportData">匯出我的本機資料（含實際值／交易）</button><div class="hint" style="margin-top:8px">建議每月底匯出 JSON 備份，再上傳給 ChatGPT 重新評估。重新匯入舊版資料不會清除目前的交易與實際值；匯入含實際值的備份會合併恢復。</div>
 </div>
 </section>
 </div>
 
-<div class="bottom"><button class="on" data-page="home">總覽</button><button data-page="month">本月</button><button data-page="roadmap">路線</button><button data-page="goals">目標</button><button data-page="settings">設定</button></div>
+<div class="bottom"><button class="on" data-page="home">總覽</button><button data-page="month">本月</button><button data-page="roadmap">路線</button><button data-page="goals">目標</button><button data-page="ledger">交易／信用卡</button><button data-page="settings">設定</button></div>
 
 <script>
 const $=id=>document.getElementById(id), money=n=>Number.isFinite(Number(n))?'$'+Math.round(Number(n)).toLocaleString('zh-TW'):'—';
 const PLANKEY='finance_plan_v31', ACTKEY='finance_actuals_v31', PROFILE='finance_profile_v31';
-const getJSON=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const BREAKKEY='finance_breakdowns_v32', TXKEY='finance_transactions_v32', RESKEY='finance_reserves_v32';
+const getJSON=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}};
 const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-
+const plan=()=>getJSON(PLANKEY,[]), profile=()=>getJSON(PROFILE,{}), actuals=()=>getJSON(ACTKEY,{}),breakdowns=()=>getJSON(BREAKKEY,{}),transactions=()=>getJSON(TXKEY,[]),reserves=()=>getJSON(RESKEY,{});
+const num=v=>Number.isFinite(Number(v))?Number(v):0;
+const fmtMonth=k=>k?.replace('-','/')||'—';
+const monthOf=d=>(d||'').slice(0,7);
+const key=r=>`${r.year}-${String(r.month).padStart(2,'0')}`;
+const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('on',x.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
-function key(r){return `${r.year}-${String(r.month).padStart(2,'0')}`}
-function plan(){return getJSON(PLANKEY,[])}
-function profile(){return getJSON(PROFILE,{})}
-function actuals(){return getJSON(ACTKEY,{})}
-
-function currentPlanRow(){
- const p=plan(); if(!p.length)return null;
- const now=new Date(), k=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
- return p.find(r=>key(r)===k) || p[0];
-}
-function renderHome(){
- const p=plan(), prof=profile(), acts=actuals(), row=currentPlanRow();
- const actual=Number(prof.current_total_asset||0);
- $('actualAsset').textContent=actual?money(actual):'—';
- $('millionCurrent').textContent=actual?money(actual):'—';
- $('millionBar').style.width=Math.min(100,(actual/1000000)*100)+'%';
- if(!p.length){$('targetAsset').textContent='—';$('gapAsset').textContent='—';$('millionDate').textContent='—';$('millionMsg').textContent='請先到設定匯入私人規劃 JSON。';$('next3').innerHTML='<div class="small">尚未匯入規劃。</div>';return}
- const target=row.official_target_asset ?? row.target_asset, conservative=row.conservative_target_asset ?? row.target_asset, monthActual=acts[key(row)] ?? actual, gap=monthActual-target;
- $('targetAsset').textContent=money(target);$('gapAsset').textContent=(gap>=0?'+':'')+money(gap);$('gapAsset').className='value '+(gap>=0?'positive':'negative');
- const million=p.find(r=>(r.official_target_asset??0)>=1000000);$('millionDate').textContent=actual<1000000?'2028/02｜100萬':'2030/12｜300萬';
- $('millionMsg').innerHTML=`正式目標鎖定 <b>2028/02 達 100 萬</b>、<b>2030/12 達 300 萬</b>。目前距離 100 萬還差 <b>${money(Math.max(0,1000000-actual))}</b>。本月保守線為 ${money(conservative)}。`;
- const idx=p.indexOf(row), next=p.slice(Math.max(0,idx),Math.max(0,idx)+3);
- $('next3').innerHTML=next.map(r=>{const spend=(r.living||0)+(r.parent||0)+(r.insurance||0)+(r.travel||0)+(r.card||0);const net=(r.income||0)-spend;const detail=r.baseline?'10/24 實際資產基準':`收入 ${money(r.income)} · 真正支出 ${money(spend)} · 淨變化 ${(net>=0?'+':'')+money(net)}`;return `<div class="alloc"><div><div class="dest">${r.year}/${String(r.month).padStart(2,'0')}</div><div class="why">${detail}<br>保守線 ${money(r.conservative_target_asset??r.target_asset)}</div></div><div class="money">${money(r.official_target_asset??r.target_asset)}</div></div>`}).join('');
-}
-function renderRoadmap(){
- const p=plan(), acts=actuals(); if(!p.length){$('roadmapTable').innerHTML='<tr><td>尚未匯入規劃</td></tr>';return}
- let h='<thead><tr><th>月份</th><th>收入</th><th>生活</th><th>保費</th><th>旅遊</th><th>卡費</th><th>DCA</th><th>Emergency</th><th>Marriage</th><th>Home</th><th>正式目標</th><th>保守線</th><th>實際</th><th>正式差距</th></tr></thead><tbody>';
- p.forEach(r=>{const a=acts[key(r)],g=a===undefined?'':a-(r.official_target_asset??r.target_asset);h+=`<tr><td>${r.year}/${String(r.month).padStart(2,'0')}</td><td>${money(r.income)}</td><td>${money(r.living)}</td><td>${money(r.insurance)}</td><td>${money(r.travel)}</td><td>${money(r.card)}</td><td>${money(r.dca)}</td><td>${money(r.emergency_add)}</td><td>${money(r.marriage)}</td><td>${money(r.home)}</td><td><b>${money(r.official_target_asset??r.target_asset)}</b></td><td>${money(r.conservative_target_asset??r.target_asset)}</td><td>${a===undefined?'—':money(a)}</td><td class="${g===''?'':g>=0?'positive':'negative'}">${g===''?'—':(g>=0?'+':'')+money(g)}</td></tr>`});
- $('roadmapTable').innerHTML=h+'</tbody>';
-}
-function fillMonthSelect(){
- const p=plan();$('monthSelect').innerHTML='';p.forEach(r=>$('monthSelect').add(new Option(`${r.year}/${String(r.month).padStart(2,'0')}`,key(r))));
- if(p.length){const row=currentPlanRow();$('monthSelect').value=key(row);renderMonth()}
-}
-function renderMonth(){
- const p=plan(), r=p.find(x=>key(x)===$('monthSelect').value);if(!r)return;const acts=actuals();$('monthActual').value=acts[key(r)]??'';
- const spend=(r.living||0)+(r.parent||0)+(r.insurance||0)+(r.travel||0)+(r.card||0);const net=(r.income||0)-spend;
- $('monthCashflow').innerHTML=[
- ['收入',r.income],['生活',r.living],['孝親',r.parent],['保費',r.insurance],['旅遊',r.travel],['卡費',r.card],['本月真正支出合計',spend],['本月資產淨變化',net],['月底正式目標',r.official_target_asset??r.target_asset],['月底保守線',r.conservative_target_asset??r.target_asset]
- ].map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('');
- $('monthAlloc').innerHTML=[
- ['Emergency',r.emergency_add],['DCA',r.dca],['Marriage',r.marriage],['Home',r.home],['Goal Buffer',r.buffer]
- ].map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('');
-}
+function currentPlanRow(){const p=plan();if(!p.length)return null;const now=new Date(),k=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;return p.find(r=>key(r)===k)||p[0]}
+function netBalance(b){return num(b.cash)+num(b.investment)+num(b.other)-num(b.card_debt)-num(b.other_debt)}
+function actualFor(k){const a=actuals();if(Object.prototype.hasOwnProperty.call(a,k))return num(a[k]);const b=breakdowns()[k];return b?netBalance(b):null}
+function renderHome(){const p=plan(),prof=profile(),row=currentPlanRow();const k=row?key(row):null;const actual=k&&actualFor(k)!==null?actualFor(k):num(prof.current_total_asset);$('actualAsset').textContent=money(actual);$('millionCurrent').textContent=money(actual);$('millionBar').style.width=Math.max(0,Math.min(100,actual/1000000*100))+'%';if(!row){['targetAsset','gapAsset','millionDate','originalMonthlyTarget','monthlyActualDisplay'].forEach(id=>$(id).textContent='—');$('millionMsg').textContent='請先匯入私人規劃 JSON';$('next3').textContent='尚未匯入規劃';return}const target=num(row.official_target_asset??row.target_asset),conservative=num(row.conservative_target_asset??row.target_asset),hasActual=actualFor(k)!==null,displayActual=hasActual?actualFor(k):actual;const gap=displayActual-target;$('targetAsset').textContent=money(target);$('originalMonthlyTarget').textContent=money(target);$('monthlyActualDisplay').textContent=hasActual?money(displayActual):'尚未填寫';$('monthlyProgressNote').textContent=hasActual?`較原訂目標 ${gap>=0?'超前':'落後'} ${money(Math.abs(gap))}；保守現金流目標 ${money(conservative)}。原訂目標不覆蓋。`:`本月尚未記錄實際餘額；原訂正式目標 ${money(target)}，保守線 ${money(conservative)}。`;$('gapAsset').textContent=hasActual?(gap>=0?'+':'-')+money(Math.abs(gap)):'—';$('gapAsset').className='value '+(gap>=0?'positive':'negative');$('millionDate').textContent=actual<1000000?'2028/02｜100萬':'2030/12｜300萬';$('millionMsg').innerHTML=`正式里程碑：<b>2028/02 $1,000,000</b>、<b>2030/12 $3,000,000</b>。距離第一桶金 <b>${money(Math.max(0,1000000-actual))}</b>。`;
+const idx=p.indexOf(row),next=p.slice(idx,idx+3);$('next3').innerHTML=next.map(r=>{const spend=num(r.living)+num(r.parent)+num(r.insurance)+num(r.travel)+num(r.card),net=num(r.income)-spend;return `<div class="alloc"><div><div class="dest">${fmtMonth(key(r))}</div><div class="why">${r.baseline?'實際資產基準月':`收入 ${money(r.income)} · 舊版計畫現金支出 ${money(spend)} · 淨流入 ${money(net)}`}<br>保守線 ${money(r.conservative_target_asset??r.target_asset)}</div></div><div class="money">${money(r.official_target_asset??r.target_asset)}</div></div>`}).join('')}
+function renderRoadmap(){const p=plan();if(!p.length){$('roadmapTable').innerHTML='<tr><td>尚未匯入規劃</td></tr>';return}let h='<thead><tr><th>月份</th><th>收入</th><th>生活</th><th>保費</th><th>旅遊</th><th>卡費（舊版現金流）</th><th>DCA</th><th>Emergency</th><th>Marriage</th><th>Home</th><th>原訂正式目標</th><th>保守線</th><th>實際淨資產</th><th>與正式目標差距</th></tr></thead><tbody>';p.forEach(r=>{const a=actualFor(key(r)),t=num(r.official_target_asset??r.target_asset),g=a===null?null:a-t;h+=`<tr><td>${fmtMonth(key(r))}</td><td>${money(r.income)}</td><td>${money(r.living)}</td><td>${money(r.insurance)}</td><td>${money(r.travel)}</td><td>${money(r.card)}</td><td>${money(r.dca)}</td><td>${money(r.emergency_add)}</td><td>${money(r.marriage)}</td><td>${money(r.home)}</td><td><b>${money(t)}</b></td><td>${money(r.conservative_target_asset??r.target_asset)}</td><td>${a===null?'—':money(a)}</td><td class="${g===null?'':g>=0?'positive':'negative'}">${g===null?'—':(g>=0?'+':'-')+money(Math.abs(g))}</td></tr>`});$('roadmapTable').innerHTML=h+'</tbody>'}
+function fillMonthSelect(){const p=plan(),sel=$('monthSelect'),old=sel.value;sel.innerHTML='';p.forEach(r=>sel.add(new Option(fmtMonth(key(r)),key(r))));if(p.length){sel.value=p.some(r=>key(r)===old)?old:key(currentPlanRow());renderMonth()}}
+function renderMonth(){const r=plan().find(x=>key(x)===$('monthSelect').value);if(!r)return;const k=key(r),a=actualFor(k),b=breakdowns()[k];$('monthActual').value=a===null?'':a;['mCash','mInvest','mOther','mCardDebt','mOtherDebt'].forEach((id,i)=>{const f=['cash','investment','other','card_debt','other_debt'][i];$(id).value=b?b[f]:''});$('breakdownPreview').textContent=b?`已儲存 ${fmtMonth(k)} 明細：實際淨資產 ${money(netBalance(b))}`:'尚未儲存此月的分項餘額';const spend=num(r.living)+num(r.parent)+num(r.insurance)+num(r.travel)+num(r.card);$('monthCashflow').innerHTML=[['收入',r.income],['生活',r.living],['孝親',r.parent],['保費',r.insurance],['旅遊',r.travel],['卡費（舊計畫）',r.card],['舊計畫現金支出合計',spend],['舊計畫淨流入',num(r.income)-spend],['月底原訂正式目標',r.official_target_asset??r.target_asset],['月底保守線',r.conservative_target_asset??r.target_asset]].map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('');$('monthAlloc').innerHTML=[['Emergency',r.emergency_add],['DCA',r.dca],['Marriage',r.marriage],['Home',r.home],['Goal Buffer',r.buffer]].map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('');renderLedgerSummary()}
 $('monthSelect').addEventListener('change',renderMonth);
-$('saveActual').addEventListener('click',()=>{const a=actuals();a[$('monthSelect').value]=+$('monthActual').value||0;setJSON(ACTKEY,a);renderAll()});
-
-$('importFile').addEventListener('change',async e=>{
- const f=e.target.files[0];if(!f)return;
- try{const data=JSON.parse(await f.text());setJSON(PLANKEY,data.plan||[]);setJSON(PROFILE,data.profile||{});renderAll();alert('私人規劃已匯入這個瀏覽器 ✓')}catch(err){alert('JSON 格式讀取失敗')}
-});
-$('saveProfile').addEventListener('click',()=>{const p=profile();p.current_total_asset=+$('sCurrentAsset').value||0;p.current_investment=+$('sInvestment').value||0;p.current_cash=+$('sCash').value||0;p.current_emergency=+$('sEmergency').value||0;setJSON(PROFILE,p);renderAll()});
-$('exportData').addEventListener('click',()=>{const out={profile:profile(),plan:plan(),actuals:actuals()};const b=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='my-finance-local-backup.json';a.click();URL.revokeObjectURL(u)});
-
-function renderSettings(){const p=profile();$('sCurrentAsset').value=p.current_total_asset||'';$('sInvestment').value=p.current_investment||'';$('sCash').value=p.current_cash||'';$('sEmergency').value=p.current_emergency||''}
-function renderAll(){renderHome();renderRoadmap();fillMonthSelect();renderSettings()}
-document.addEventListener('DOMContentLoaded',renderAll);
+$('saveBreakdown').addEventListener('click',()=>{const vals=['mCash','mInvest','mOther','mCardDebt','mOtherDebt'].map(id=>$(id).value);if(vals.some(v=>v.trim()===''||!Number.isFinite(Number(v))||Number(v)<0)){alert('請填寫所有餘額；沒有金額請填 0。');return}const b={cash:num(vals[0]),investment:num(vals[1]),other:num(vals[2]),card_debt:num(vals[3]),other_debt:num(vals[4])},k=$('monthSelect').value,all=breakdowns(),a=actuals();all[k]=b;a[k]=netBalance(b);setJSON(BREAKKEY,all);setJSON(ACTKEY,a);renderAll();$('monthSelect').value=k;renderMonth();alert(`已記錄 ${fmtMonth(k)} 實際淨資產 ${money(a[k])}`)});
+$('saveActual').addEventListener('click',()=>{if($('monthActual').value.trim()===''||!Number.isFinite(Number($('monthActual').value))){alert('請輸入實際淨資產');return}const k=$('monthSelect').value,a=actuals();a[k]=num($('monthActual').value);setJSON(ACTKEY,a);renderAll();$('monthSelect').value=k;renderMonth();alert('手動實際淨資產已儲存；若已有分項餘額，請確認是否與手動值相符。')});
+function renderReserves(){const r=reserves();[['reserveMarriage','marriage'],['reserveTravel','travel'],['reserveEmergency','emergency'],['reserveHome','home'],['plannedMarriageExpense','marriageExpense'],['plannedMarriageMonth','marriageMonth'],['plannedTravelExpense','travelExpense'],['plannedTravelMonth','travelMonth']].forEach(([id,f])=>$(id).value=r[f]??'');const sum=num(r.marriage)+num(r.travel)+num(r.emergency)+num(r.home);const events=[['結婚',r.marriageMonth,r.marriageExpense],['旅遊',r.travelMonth,r.travelExpense]].filter(x=>x[1]&&num(x[2])>0);const forecast=events.map(([name,m,amount])=>{const row=plan().find(x=>key(x)===m);return row?`${name} ${fmtMonth(m)}：若該筆 ${money(amount)} 是原計畫之外的新增支出，當月保守目標由 ${money(row.conservative_target_asset??row.target_asset)} 降為 ${money(num(row.conservative_target_asset??row.target_asset)-num(amount))}。`:`${name} ${fmtMonth(m)}：${money(amount)}（不在目前規劃時間範圍，尚無對應保守預測）。`}).join(' ');$('reserveSummary').textContent=`已標記用途預留總額 ${money(sum)}（只是現有資產內分類，不會額外計入總淨資產）。${forecast} 注意：如果費用已含在原本的旅遊或生活預算中，不應再次扣除。`;}
+$('saveReserves').addEventListener('click',()=>{const r={};[['reserveMarriage','marriage'],['reserveTravel','travel'],['reserveEmergency','emergency'],['reserveHome','home'],['plannedMarriageExpense','marriageExpense'],['plannedMarriageMonth','marriageMonth'],['plannedTravelExpense','travelExpense'],['plannedTravelMonth','travelMonth']].forEach(([id,f])=>r[f]=id.includes('Month')?$(id).value:Math.max(0,num($(id).value)));const a=actualFor($('monthSelect').value),sum=num(r.marriage)+num(r.travel)+num(r.emergency)+num(r.home);if(a!==null&&sum>a&&!confirm('目前預留總額超過所選月份淨資產，仍要儲存嗎？'))return;setJSON(RESKEY,r);renderReserves();alert('用途預留已儲存（不改變總資產）')});
+const typeNames={expense:'實際消費',card_purchase:'刷卡消費',card_payment:'信用卡繳款',transfer:'資產移轉',allocation:'用途標記',income:'收入'};
+function addMonths(s,n){const [y,m]=s.split('-').map(Number);const d=new Date(y,m-1+n,1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`}
+function cardSchedules(){let arr=[];transactions().filter(t=>t.type==='card_purchase').forEach(t=>{const first=t.firstMonth||monthOf(t.date),count=Math.max(1,num(t.installments));if(!first)return;for(let i=0;i<count;i++){const each=i===count-1?num(t.amount)-Math.floor(num(t.amount)*100/count)*(count-1)/100:Math.floor(num(t.amount)*100/count)/100;arr.push({month:addMonths(first,i),amount:each,id:t.id})}});return arr}
+function renderLedgerSummary(){const k=$('monthSelect').value,tx=transactions(),spent=tx.filter(t=>monthOf(t.date)===k&&(t.type==='expense'||t.type==='card_purchase')).reduce((a,t)=>a+num(t.amount),0),repay=tx.filter(t=>monthOf(t.date)===k&&t.type==='card_payment').reduce((a,t)=>a+num(t.amount),0),schedule=cardSchedules().filter(t=>t.month===k).reduce((a,t)=>a+t.amount,0);$('ledgerSummary').innerHTML=`<div class="alloc"><span>當月已記錄實際消費（刷卡＋現金）</span><b>${money(spent)}</b></div><div class="alloc"><span>當月實際信用卡還款（不重複算消費）</span><b>${money(repay)}</b></div><div class="alloc"><span>當月分期應付款（預排，非實際付款）</span><b>${money(schedule)}</b></div><div class="hint">舊版 plan.card 是原始現金流規劃值，尚未與交易紀錄自動對帳；不能再與刷卡消費直接相加。只有你新增的分期交易會產生此處預排。</div>`}
+function renderTx(){const t=transactions().slice().sort((a,b)=>b.date.localeCompare(a.date));$('txRows').innerHTML=t.length?t.map(x=>`<tr><td>${escapeHtml(x.date)}</td><td>${typeNames[x.type]||'—'}</td><td>${money(x.amount)}</td><td>${escapeHtml(x.from)} → ${escapeHtml(x.to)}<br><span class="small">${escapeHtml(x.note)}${x.type==='card_purchase'?' · '+x.installments+' 期':''}</span></td><td><button class="btn secondary" style="padding:6px 9px" data-delete-tx="${escapeHtml(x.id)}">刪除</button></td></tr>`).join(''):'<tr><td colspan="5" class="small">尚無交易紀錄</td></tr>';renderLedgerSummary()}
+$('txRows').addEventListener('click',e=>{const b=e.target.closest('[data-delete-tx]');if(!b||!confirm('確定刪除這筆交易？'))return;setJSON(TXKEY,transactions().filter(t=>t.id!==b.dataset.deleteTx));renderTx()});
+$('addTx').addEventListener('click',()=>{const date=$('txDate').value,type=$('txType').value,amount=Number($('txAmount').value),installments=Number($('txInstallments').value)||1,firstMonth=$('txFirstMonth').value;if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(amount)||amount<=0){alert('請填寫正確日期與正數金額');return}if(type==='card_purchase'&&(!Number.isInteger(installments)||installments<1||installments>120)){alert('分期期數須在 1 到 120 之間');return}const tx=transactions();tx.push({id:'tx-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),date,type,amount,from:$('txFrom').value.trim(),to:$('txTo').value.trim(),installments:type==='card_purchase'?installments:1,firstMonth:type==='card_purchase'?(firstMonth||monthOf(date)):'',note:$('txNote').value.trim()});setJSON(TXKEY,tx);$('txAmount').value='';$('txNote').value='';$('txStatus').textContent='交易已儲存；月底分項資產仍須以實際餘額對帳。';renderTx()});
+$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data.plan)||!data.profile||typeof data.profile!=='object')throw Error('不完整的私人規劃');const mergedA={...actuals(),...(data.actuals&&typeof data.actuals==='object'?data.actuals:{})};const mergedB={...breakdowns(),...(data.breakdowns&&typeof data.breakdowns==='object'?data.breakdowns:{})};const mergedR={...reserves(),...(data.reserves&&typeof data.reserves==='object'?data.reserves:{})};const own=transactions(),incoming=Array.isArray(data.transactions)?data.transactions:[],mergedT=[...new Map([...own,...incoming].filter(x=>x&&x.id).map(x=>[x.id,x])).values()];setJSON(PLANKEY,data.plan);setJSON(PROFILE,data.profile);setJSON(ACTKEY,mergedA);setJSON(BREAKKEY,mergedB);setJSON(TXKEY,mergedT);setJSON(RESKEY,mergedR);renderAll();alert('已匯入私人規劃；歷史實際值與交易已合併保留 ✓')}catch(err){alert('匯入失敗：'+err.message)}e.target.value=''});
+$('saveProfile').addEventListener('click',()=>{const p=profile();p.current_total_asset=num($('sCurrentAsset').value);p.current_investment=num($('sInvestment').value);p.current_cash=num($('sCash').value);p.current_emergency=num($('sEmergency').value);setJSON(PROFILE,p);renderAll();alert('目前基準設定已儲存；原訂目標線未更動')});
+$('exportData').addEventListener('click',()=>{const out={version:32,exported_at:new Date().toISOString(),profile:profile(),plan:plan(),actuals:actuals(),breakdowns:breakdowns(),transactions:transactions(),reserves:reserves()};const b=new Blob([JSON.stringify(out,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='my_finance_private_backup_v32.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)});
+function renderSettings(){const p=profile();$('sCurrentAsset').value=p.current_total_asset??'';$('sInvestment').value=p.current_investment??'';$('sCash').value=p.current_cash??'';$('sEmergency').value=p.current_emergency??''}
+function renderAll(){renderHome();renderRoadmap();fillMonthSelect();renderSettings();renderReserves();renderTx()}
+document.addEventListener('DOMContentLoaded',()=>{$('txDate').value=new Date().toLocaleDateString('en-CA');renderAll()});
 </script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}</script>
 </body></html>
