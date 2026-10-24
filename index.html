@@ -1,199 +1,164 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="財務小管家">
-<meta name="theme-color" content="#172235">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-180.png">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172235"><meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png">
 <title>我的財務小管家</title>
 <style>
-:root{--bg:#111522;--card:#1a2030;--text:#f4f6f8;--muted:#9ca7b5;--line:#30384a;--lime:#91d34f;--gold:#f6c85f;--red:#ff6969}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
-.app{max-width:1050px;margin:auto;padding:18px 15px 92px}.hero{padding:24px 20px;background:linear-gradient(140deg,#172235,#222b40);border:1px solid var(--line);border-radius:24px}
-.hero h1{font-size:28px;margin:6px 0}.hero p{margin:0;color:var(--muted)}.eyebrow{font-size:11px;color:var(--muted)}
-.nav{display:flex;gap:8px;overflow:auto;position:sticky;top:0;z-index:10;padding:12px 0;background:rgba(17,21,34,.96)}
-.nav button{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:10px 14px;border-radius:99px;font-weight:700;white-space:nowrap}.nav button.on{background:var(--lime);color:#13200d}
+:root{--bg:#101522;--card:#1a2030;--card2:#20283a;--line:#303a4e;--text:#f5f7fa;--muted:#9ba8ba;--lime:#94d64f;--gold:#f4c760;--red:#ff7272;--blue:#70b8ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
+.app{max-width:1100px;margin:auto;padding:18px 15px 90px}.hero{padding:24px 20px;background:linear-gradient(135deg,#172235,#252f46);border:1px solid var(--line);border-radius:23px}
+.hero h1{font-size:28px;margin:5px 0}.hero p{margin:0;color:var(--muted)}.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.06em}
+.nav{display:flex;gap:8px;position:sticky;top:0;z-index:10;padding:12px 0;background:rgba(16,21,34,.96);overflow:auto}.nav button{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:10px 14px;border-radius:99px;font-weight:800;white-space:nowrap}.nav button.on{background:var(--lime);color:#13200d}
 .page{display:none}.page.on{display:block}.grid{display:grid;gap:13px}.kpis{grid-template-columns:repeat(4,1fr);margin-top:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
-.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;margin-top:4px}.lime{color:var(--lime)}.red{color:var(--red)}.gold{color:var(--gold)}
-h2{font-size:19px;margin:25px 0 10px}h3{font-size:16px;margin:0 0 9px}.small{font-size:12px;color:var(--muted)}.notice{padding:14px 15px;border-radius:14px;background:#262c3c;border:1px solid var(--line);font-size:13px}.warn{background:#29251c}
-.progress{height:12px;background:#2a3141;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--lime)}.accounts{grid-template-columns:repeat(3,1fr)}
-.tag{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;margin-bottom:8px;background:#2a3448;color:#d8e7fa}
-.input,select{width:100%;border:1px solid var(--line);background:#141a27;color:var(--text);border-radius:12px;padding:12px;font-size:16px}.btn{border:0;border-radius:13px;padding:13px 16px;font-size:15px;font-weight:800;background:var(--lime);color:#14200e}.btn.secondary{background:#2b3344;color:var(--text)}
-.two{grid-template-columns:1fr 1fr}.alloc{display:grid;grid-template-columns:1fr auto;gap:5px 12px;padding:12px 0;border-bottom:1px solid var(--line)}.alloc:last-child{border:0}.dest{font-weight:800}.why{font-size:12px;color:var(--muted)}.money{font-weight:900}
-.bottom{display:none;position:fixed;left:0;right:0;bottom:0;background:rgba(17,21,34,.98);border-top:1px solid var(--line);z-index:20}.bottom button{flex:1;background:none;border:0;color:var(--muted);padding:11px 4px;font-size:11px}.bottom button.on{color:var(--lime);font-weight:800}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}.modal.on{display:flex}.modalbox{max-width:680px;width:100%;max-height:90vh;overflow:auto;background:#161c29;border:1px solid var(--line);border-radius:22px;padding:20px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.privacy{font-size:12px;color:#c8d2de;background:#14231a;border:1px solid #31513a;border-radius:12px;padding:12px}
-@media(max-width:760px){.kpis{grid-template-columns:1fr 1fr}.accounts,.two{grid-template-columns:1fr}.nav{display:none}.bottom{display:flex}.hero{margin:-18px -15px 0;border-radius:0}}
+.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:900;margin-top:4px}.lime{color:var(--lime)}.gold{color:var(--gold)}.red{color:var(--red)}.blue{color:var(--blue)}
+h2{font-size:19px;margin:25px 0 10px}h3{font-size:16px;margin:0 0 8px}.small{font-size:12px;color:var(--muted)}.notice{padding:14px;border-radius:14px;background:#242c3d;border:1px solid var(--line);font-size:13px}
+.progress{height:13px;background:#2a3243;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--lime);border-radius:99px}.two{grid-template-columns:1fr 1fr}
+.input,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#141a27;color:var(--text);font-size:16px}.btn{border:0;border-radius:13px;padding:13px 16px;font-weight:850;font-size:14px;background:var(--lime);color:#14200e}.btn.secondary{background:#2b3446;color:var(--text)}
+.alloc{display:grid;grid-template-columns:1fr auto;gap:5px 12px;padding:11px 0;border-bottom:1px solid var(--line)}.alloc:last-child{border:0}.dest{font-weight:800}.money{font-weight:900}.why{font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{background:var(--card2);position:sticky;top:0}
+.tablewrap{overflow:auto;max-height:560px;border-radius:13px}.positive{color:var(--lime)}.negative{color:var(--red)}
+.bottom{display:none;position:fixed;left:0;right:0;bottom:0;background:rgba(16,21,34,.98);border-top:1px solid var(--line);z-index:20}.bottom button{flex:1;border:0;background:none;color:var(--muted);padding:11px 3px;font-size:11px}.bottom button.on{color:var(--lime);font-weight:850}
+@media(max-width:760px){.kpis{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.nav{display:none}.bottom{display:flex}.hero{margin:-18px -15px 0;border-radius:0}.app{padding-bottom:80px}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="hero">
-<div class="eyebrow">PRIVATE-DATA VERSION · v28</div>
-<h1>我的財務小管家 💸</h1>
-<p>程式碼公開也沒關係；真正財務數字只存在你的瀏覽器。</p>
-</header>
-
+<header class="hero"><div class="eyebrow">GOAL TRACKER · v29</div><h1>我的財務小管家 💸</h1><p>不只分錢，還要知道自己有沒有走在「100 萬路線」上。</p></header>
 <nav class="nav">
-<button class="on" data-page="home">現在</button><button data-page="pay">分薪</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button><button data-page="settings">設定</button>
+<button class="on" data-page="home">總覽</button><button data-page="month">本月</button><button data-page="roadmap">資產路線</button><button data-page="goals">目標</button><button data-page="settings">設定</button>
 </nav>
 
 <section id="home" class="page on">
 <div class="grid kpis">
-<div class="card"><div class="label">目前總資產</div><div class="value lime" id="kTotal">—</div></div>
-<div class="card"><div class="label">投資資產</div><div class="value" id="kInvest">—</div></div>
-<div class="card"><div class="label">台幣可動用現金</div><div class="value gold" id="kCash">—</div></div>
-<div class="card"><div class="label">下一筆保費</div><div class="value red" id="kInsurance">—</div></div>
+<div class="card"><div class="label">實際總資產</div><div class="value lime" id="actualAsset">—</div></div>
+<div class="card"><div class="label">本月目標資產</div><div class="value" id="targetAsset">—</div></div>
+<div class="card"><div class="label">超前 / 落後</div><div class="value" id="gapAsset">—</div></div>
+<div class="card"><div class="label">100 萬目標月</div><div class="value gold" id="millionDate">—</div></div>
 </div>
 
-<h2>現在要先做什麼？</h2>
+<h2>100 萬進度</h2>
 <div class="card">
-<div id="priorityBox" class="notice">先到「設定」輸入你的資料。</div>
-<div style="height:12px"></div>
-<div class="progress"><div class="bar" id="insuranceBar" style="width:0%"></div></div>
-<div class="small" id="insuranceText" style="margin-top:8px"></div>
+<div style="display:flex;justify-content:space-between;gap:12px"><div><div class="label">目前</div><div class="value" id="millionCurrent">—</div></div><div style="text-align:right"><div class="label">目標</div><div class="value">$1,000,000</div></div></div>
+<div class="progress" style="margin-top:12px"><div class="bar" id="millionBar"></div></div>
+<div class="notice" style="margin-top:12px" id="millionMsg">匯入私人規劃後即可追蹤。</div>
 </div>
 
-<h2>你的順序</h2>
-<div class="card">
-<div class="alloc"><div><div class="dest">① 近期必要支出 / 保費</div><div class="why">先處理已知、確定會發生的現金需求</div></div><span class="tag">最高</span></div>
-<div class="alloc"><div><div class="dest">② 生活 / 卡費</div><div class="why">避免短期再去動投資</div></div><span class="tag">必要</span></div>
-<div class="alloc"><div><div class="dest">③ Emergency</div><div class="why">先 50K，再到 80K</div></div><span class="tag">安全墊</span></div>
-<div class="alloc"><div><div class="dest">④ DCA</div><div class="why">現金穩定後再加速</div></div><span class="tag">成長</span></div>
+<h2>接下來三個月</h2>
+<div class="card" id="next3"></div>
+</section>
+
+<section id="month" class="page">
+<h2>這個月應該長怎樣？</h2>
+<div class="card"><div class="grid two"><select id="monthSelect"></select><label>更新實際總資產<input class="input" id="monthActual" type="number"></label></div><div style="height:10px"></div><button class="btn" id="saveActual">儲存實際資產</button></div>
+<div class="grid two" style="margin-top:13px">
+<div class="card"><h3>現金流</h3><div id="monthCashflow"></div></div>
+<div class="card"><h3>資產內部分配</h3><div id="monthAlloc"></div></div>
 </div>
 </section>
 
-<section id="pay" class="page">
-<h2>這次拿到錢，怎麼分？</h2>
-<div class="card">
-<div class="grid two">
-<label>這次實拿<input id="incomeInput" class="input" type="number" placeholder="例如 59500"></label>
-<label>這月生活預算<input id="livingInput" class="input" type="number" placeholder="例如 18000"></label>
-</div>
-<div style="height:10px"></div>
-<div class="grid two">
-<label>孝親<input id="parentInput" class="input" type="number" placeholder="例如 3000"></label>
-<label>Travel Fund<input id="travelInput" class="input" type="number" placeholder="例如 5000"></label>
-</div>
-<div style="height:10px"></div>
-<div class="grid two">
-<label>DCA<input id="dcaInput" class="input" type="number" placeholder="例如 10000"></label>
-<label>Emergency 每月補<input id="emAddInput" class="input" type="number" placeholder="例如 5000"></label>
-</div>
-<div style="height:12px"></div>
-<button class="btn" id="calcBtn">幫我分錢</button>
-</div>
-
-<h2>照這個順序轉</h2>
-<div class="card" id="allocation"><div class="small">輸入收入後按「幫我分錢」。</div></div>
-</section>
-
-<section id="accounts" class="page">
-<h2>帳戶地圖</h2>
-<div class="grid accounts">
-<div class="card"><span class="tag">收錢</span><h3>富邦｜薪資</h3><div class="small">薪水總入口，分流後留小 buffer。</div></div>
-<div class="card"><span class="tag">花錢</span><h3>中信①｜生活</h3><div class="small">日常支出。</div></div>
-<div class="card"><span class="tag">Emergency</span><h3>中信②｜Emergency</h3><div class="value" id="aEmergency">—</div></div>
-<div class="card"><span class="tag">年度 / 目標</span><h3>國泰一般</h3><div class="small">Insurance / Travel / Marriage / Home。</div></div>
-<div class="card"><span class="tag">投資</span><h3>國泰證券</h3><div class="value" id="aInvest">—</div></div>
-<div class="card"><span class="tag">美股過路</span><h3>國泰美金</h3><div class="small">只留近期 DCA 所需。</div></div>
-<div class="card"><span class="tag">高風險</span><h3>Crypto / Binance</h3><div class="value" id="aCrypto">—</div><div class="small">算投資，不算 Emergency。</div></div>
-<div class="card"><span class="tag">現金</span><h3>可動用台幣現金</h3><div class="value" id="aCash">—</div></div>
-</div>
+<section id="roadmap" class="page">
+<h2>每月目標資產路線</h2>
+<div class="notice">「目標資產」採保守現金流法：收入 − 真正消費支出。DCA、Emergency、Marriage、Home 是資產內部移轉，所以不會重複扣掉。</div>
+<div class="card" style="margin-top:12px"><div class="tablewrap"><table id="roadmapTable"></table></div></div>
 </section>
 
 <section id="goals" class="page">
 <h2>人生目標</h2>
 <div class="card">
-<div class="alloc"><div><div class="dest">Emergency 第一層</div><div class="why">先 50K，再到 80K</div></div><div class="money">$80K</div></div>
+<div class="alloc"><div><div class="dest">第一桶金</div><div class="why">用每月目標資產追蹤</div></div><div class="money">$1,000,000</div></div>
+<div class="alloc"><div><div class="dest">Emergency</div><div class="why">先 50K，再 80K；家庭責任增加再上調</div></div><div class="money">$80K</div></div>
 <div class="alloc"><div><div class="dest">Marriage</div><div class="why">2028–2030</div></div><div class="money">$400–500K</div></div>
 <div class="alloc"><div><div class="dest">Baby / Family Buffer</div><div class="why">2030 前後</div></div><div class="money">$300–500K</div></div>
-<div class="alloc"><div><div class="dest">Home</div><div class="why">婚育後加速；買房前 1–3 年才降風險</div></div><div class="money">長期</div></div>
+<div class="alloc"><div><div class="dest">Home</div><div class="why">婚育後加速；買房前 1–3 年再降投資風險</div></div><div class="money">長期</div></div>
 </div>
 </section>
 
 <section id="settings" class="page">
-<h2>私人資料設定</h2>
-<div class="privacy">這些值只存在你目前這個瀏覽器的 localStorage，不會寫進 GitHub repo，也不會自動傳到任何伺服器。</div>
+<h2>私人規劃資料</h2>
+<div class="notice">Public GitHub repo 裡沒有你的資產、薪水或每月規劃。請匯入我另外給你的私人 JSON；資料只存在此瀏覽器 localStorage。</div>
 <div class="card" style="margin-top:12px">
-<div class="grid two">
-<label>總資產<input id="sTotal" class="input" type="number"></label>
-<label>投資資產<input id="sInvest" class="input" type="number"></label>
-<label>台幣可動用現金<input id="sCash" class="input" type="number"></label>
-<label>Emergency 餘額<input id="sEmergency" class="input" type="number"></label>
-<label>Crypto / Binance（台幣換算）<input id="sCrypto" class="input" type="number"></label>
-<label>下一筆保費<input id="sInsurance" class="input" type="number"></label>
-</div>
+<label>匯入私人 JSON<input id="importFile" class="input" type="file" accept=".json,application/json"></label>
 <div style="height:12px"></div>
-<div class="actions"><button class="btn" id="savePrivate">儲存到這台裝置</button><button class="btn secondary" id="clearPrivate">清除私人資料</button></div>
+<div class="grid two">
+<label>目前總資產<input id="sCurrentAsset" class="input" type="number"></label>
+<label>目前投資資產<input id="sInvestment" class="input" type="number"></label>
+<label>目前可動用現金<input id="sCash" class="input" type="number"></label>
+<label>Emergency<input id="sEmergency" class="input" type="number"></label>
+</div>
+<div style="height:12px"></div><button class="btn" id="saveProfile">儲存目前數字</button>
+<button class="btn secondary" id="exportData">匯出我的本機資料</button>
 </div>
 </section>
 </div>
 
-<div class="bottom">
-<button class="on" data-page="home">現在</button><button data-page="pay">分薪</button><button data-page="accounts">帳戶</button><button data-page="goals">目標</button><button data-page="settings">設定</button>
-</div>
-
-<div class="modal" id="setupModal">
-<div class="modalbox">
-<h2 style="margin-top:0">第一次使用 👋</h2>
-<div class="privacy">這版不把你的真實財務數字寫進網站原始碼。請在這台裝置輸入一次，之後會只存在瀏覽器本機。</div>
-<div style="height:12px"></div>
-<div class="grid two">
-<label>總資產<input id="mTotal" class="input" type="number" placeholder="例如 350000"></label>
-<label>投資資產<input id="mInvest" class="input" type="number" placeholder="例如 320000"></label>
-<label>台幣可動用現金<input id="mCash" class="input" type="number" placeholder="例如 12000"></label>
-<label>Emergency 餘額<input id="mEmergency" class="input" type="number" placeholder="例如 0"></label>
-<label>Crypto / Binance（台幣換算）<input id="mCrypto" class="input" type="number" placeholder="可留空"></label>
-<label>下一筆保費<input id="mInsurance" class="input" type="number" placeholder="例如 23000"></label>
-</div>
-<div style="height:12px"></div>
-<button class="btn" id="firstSave">開始使用</button>
-</div>
-</div>
+<div class="bottom"><button class="on" data-page="home">總覽</button><button data-page="month">本月</button><button data-page="roadmap">路線</button><button data-page="goals">目標</button><button data-page="settings">設定</button></div>
 
 <script>
-const $=id=>document.getElementById(id);
-const money=n=>Number(n)>0?'$'+Math.round(Number(n)).toLocaleString('zh-TW'):'—';
-const KEY='finance_private_v28';
-const defaults={total:0,invest:0,cash:0,emergency:0,crypto:0,insurance:0};
-function load(){try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return {...defaults}}}
-function save(v){localStorage.setItem(KEY,JSON.stringify(v));render()}
-function render(){
- const v=load();
- $('kTotal').textContent=money(v.total);$('kInvest').textContent=money(v.invest);$('kCash').textContent=money(v.cash);$('kInsurance').textContent=money(v.insurance);
- $('aEmergency').textContent=money(v.emergency);$('aInvest').textContent=money(v.invest);$('aCrypto').textContent=money(v.crypto);$('aCash').textContent=money(v.cash);
- const need=Math.max(0,(+v.insurance||0)-(+v.cash||0));
- const pct=v.insurance>0?Math.min(100,(v.cash/v.insurance)*100):0;
- $('insuranceBar').style.width=pct+'%';
- $('insuranceText').textContent=v.insurance>0?`目前可動用現金約覆蓋 ${Math.round(pct)}% 的下一筆保費。`:'尚未設定下一筆保費。';
- $('priorityBox').innerHTML=v.insurance>0?(need>0?`先補 <b>${money(need)}</b> 的近期保費缺口，再補 Emergency。`:`近期保費已有足夠現金覆蓋，可以繼續補 Emergency / DCA。`):'先到「設定」輸入你的資料。';
- ['Total','Invest','Cash','Emergency','Crypto','Insurance'].forEach(k=>{const el=$('s'+k);if(el)el.value=v[k.toLowerCase()]||''});
-}
+const $=id=>document.getElementById(id), money=n=>Number.isFinite(Number(n))?'$'+Math.round(Number(n)).toLocaleString('zh-TW'):'—';
+const PLANKEY='finance_plan_v29', ACTKEY='finance_actuals_v29', PROFILE='finance_profile_v29';
+const getJSON=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
 function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('on',x.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
-$('savePrivate').addEventListener('click',()=>save({total:+$('sTotal').value||0,invest:+$('sInvest').value||0,cash:+$('sCash').value||0,emergency:+$('sEmergency').value||0,crypto:+$('sCrypto').value||0,insurance:+$('sInsurance').value||0}));
-$('clearPrivate').addEventListener('click',()=>{localStorage.removeItem(KEY);render();$('setupModal').classList.add('on')});
-$('firstSave').addEventListener('click',()=>{save({total:+$('mTotal').value||0,invest:+$('mInvest').value||0,cash:+$('mCash').value||0,emergency:+$('mEmergency').value||0,crypto:+$('mCrypto').value||0,insurance:+$('mInsurance').value||0});$('setupModal').classList.remove('on')});
-$('calcBtn').addEventListener('click',()=>{
- const v=load(), income=+$('incomeInput').value||0, living=+$('livingInput').value||0, parent=+$('parentInput').value||0, travel=+$('travelInput').value||0, dca=+$('dcaInput').value||0, emAdd=+$('emAddInput').value||0;
- let left=income, rows=[];
- const put=(name,want,why)=>{let a=Math.max(0,Math.min(want,left));left-=a;if(a>0)rows.push([name,a,why])};
- const gap=Math.max(0,(+v.insurance||0)-(+v.cash||0));
- put('國泰一般｜近期保費',gap,'先補近期確定現金需求');
- put('中信①｜生活',living,'這個月生活上限');
- put('孝親',parent,'固定');
- put('國泰一般｜Travel',travel,'旅遊沉澱金');
- put('中信②｜Emergency',emAdd,'先往 50K，再到 80K');
- put('國泰證券 / 國泰美金｜DCA',dca,'現金穩定後再加速');
- if(left>0)put('Goal Buffer',left,'留給 Marriage / Home / 下月');
- $('allocation').innerHTML=rows.length?rows.map(r=>`<div class="alloc"><div><div class="dest">${r[0]}</div><div class="why">${r[2]}</div></div><div class="money">${money(r[1])}</div></div>`).join(''):'<div class="small">目前沒有可分配金額。</div>';
+function key(r){return `${r.year}-${String(r.month).padStart(2,'0')}`}
+function plan(){return getJSON(PLANKEY,[])}
+function profile(){return getJSON(PROFILE,{})}
+function actuals(){return getJSON(ACTKEY,{})}
+
+function currentPlanRow(){
+ const p=plan(); if(!p.length)return null;
+ const now=new Date(), k=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+ return p.find(r=>key(r)===k) || p[0];
+}
+function renderHome(){
+ const p=plan(), prof=profile(), acts=actuals(), row=currentPlanRow();
+ const actual=Number(prof.current_total_asset||0);
+ $('actualAsset').textContent=actual?money(actual):'—';
+ $('millionCurrent').textContent=actual?money(actual):'—';
+ $('millionBar').style.width=Math.min(100,(actual/1000000)*100)+'%';
+ if(!p.length){$('targetAsset').textContent='—';$('gapAsset').textContent='—';$('millionDate').textContent='—';$('millionMsg').textContent='請先到設定匯入私人規劃 JSON。';$('next3').innerHTML='<div class="small">尚未匯入規劃。</div>';return}
+ const target=row.target_asset, monthActual=acts[key(row)] ?? actual, gap=monthActual-target;
+ $('targetAsset').textContent=money(target);$('gapAsset').textContent=(gap>=0?'+':'')+money(gap);$('gapAsset').className='value '+(gap>=0?'positive':'negative');
+ const million=p.find(r=>r.target_asset>=1000000);$('millionDate').textContent=million?`${million.year}/${String(million.month).padStart(2,'0')}`:'規劃外';
+ $('millionMsg').innerHTML=`依目前保守規劃，目標約在 <b>${million.year}/${String(million.month).padStart(2,'0')}</b> 達到 100 萬；目前完成 ${Math.round(actual/10000)}%。`;
+ const idx=p.indexOf(row), next=p.slice(Math.max(0,idx),Math.max(0,idx)+3);
+ $('next3').innerHTML=next.map(r=>`<div class="alloc"><div><div class="dest">${r.year}/${String(r.month).padStart(2,'0')}</div><div class="why">收入 ${money(r.income)} · 生活/保費/旅遊/卡費後</div></div><div class="money">${money(r.target_asset)}</div></div>`).join('');
+}
+function renderRoadmap(){
+ const p=plan(), acts=actuals(); if(!p.length){$('roadmapTable').innerHTML='<tr><td>尚未匯入規劃</td></tr>';return}
+ let h='<thead><tr><th>月份</th><th>收入</th><th>生活</th><th>保費</th><th>旅遊</th><th>卡費</th><th>DCA</th><th>Emergency</th><th>Marriage</th><th>Home</th><th>目標資產</th><th>實際</th><th>差距</th></tr></thead><tbody>';
+ p.forEach(r=>{const a=acts[key(r)],g=a===undefined?'':a-r.target_asset;h+=`<tr><td>${r.year}/${String(r.month).padStart(2,'0')}</td><td>${money(r.income)}</td><td>${money(r.living)}</td><td>${money(r.insurance)}</td><td>${money(r.travel)}</td><td>${money(r.card)}</td><td>${money(r.dca)}</td><td>${money(r.emergency_add)}</td><td>${money(r.marriage)}</td><td>${money(r.home)}</td><td><b>${money(r.target_asset)}</b></td><td>${a===undefined?'—':money(a)}</td><td class="${g===''?'':g>=0?'positive':'negative'}">${g===''?'—':(g>=0?'+':'')+money(g)}</td></tr>`});
+ $('roadmapTable').innerHTML=h+'</tbody>';
+}
+function fillMonthSelect(){
+ const p=plan();$('monthSelect').innerHTML='';p.forEach(r=>$('monthSelect').add(new Option(`${r.year}/${String(r.month).padStart(2,'0')}`,key(r))));
+ if(p.length){const row=currentPlanRow();$('monthSelect').value=key(row);renderMonth()}
+}
+function renderMonth(){
+ const p=plan(), r=p.find(x=>key(x)===$('monthSelect').value);if(!r)return;const acts=actuals();$('monthActual').value=acts[key(r)]??'';
+ $('monthCashflow').innerHTML=[
+ ['收入',r.income],['生活',r.living],['孝親',r.parent],['保費',r.insurance],['旅遊',r.travel],['卡費',r.card],['月底目標資產',r.target_asset]
+ ].map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('');
+ $('monthAlloc').innerHTML=[
+ ['Emergency',r.emergency_add],['DCA',r.dca],['Marriage',r.marriage],['Home',r.home],['Goal Buffer',r.buffer]
+ ].map(x=>`<div class="alloc"><div class="dest">${x[0]}</div><div class="money">${money(x[1])}</div></div>`).join('');
+}
+$('monthSelect').addEventListener('change',renderMonth);
+$('saveActual').addEventListener('click',()=>{const a=actuals();a[$('monthSelect').value]=+$('monthActual').value||0;setJSON(ACTKEY,a);renderAll()});
+
+$('importFile').addEventListener('change',async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{const data=JSON.parse(await f.text());setJSON(PLANKEY,data.plan||[]);setJSON(PROFILE,data.profile||{});renderAll();alert('私人規劃已匯入這個瀏覽器 ✓')}catch(err){alert('JSON 格式讀取失敗')}
 });
-document.addEventListener('DOMContentLoaded',()=>{render();if(!localStorage.getItem(KEY))$('setupModal').classList.add('on')});
+$('saveProfile').addEventListener('click',()=>{const p=profile();p.current_total_asset=+$('sCurrentAsset').value||0;p.current_investment=+$('sInvestment').value||0;p.current_cash=+$('sCash').value||0;p.current_emergency=+$('sEmergency').value||0;setJSON(PROFILE,p);renderAll()});
+$('exportData').addEventListener('click',()=>{const out={profile:profile(),plan:plan(),actuals:actuals()};const b=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='my-finance-local-backup.json';a.click();URL.revokeObjectURL(u)});
+
+function renderSettings(){const p=profile();$('sCurrentAsset').value=p.current_total_asset||'';$('sInvestment').value=p.current_investment||'';$('sCash').value=p.current_cash||'';$('sEmergency').value=p.current_emergency||''}
+function renderAll(){renderHome();renderRoadmap();fillMonthSelect();renderSettings()}
+document.addEventListener('DOMContentLoaded',renderAll);
 </script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}</script>
-</body>
-</html>
+</body></html>

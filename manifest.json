@@ -3,7 +3,7 @@
   "short_name": "財務小管家",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#111522",
+  "background_color": "#101522",
   "theme_color": "#172235",
   "icons": [
     {
